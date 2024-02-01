@@ -79,3 +79,7 @@ in the example build report.
 hist(as.numeric(summary_df$endedat - summary_df$startedat))
 ```
 
+## TODO
+
+- [ ] Function to run through all reports and create tables
+- [ ] Function to create a database from the tables

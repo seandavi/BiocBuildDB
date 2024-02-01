@@ -105,3 +105,8 @@ hist(as.numeric(summary_df$endedat - summary_df$startedat))
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+## TODO
+
+- [ ] Function to run through all reports and create tables
+- [ ] Function to create a database from the tables
