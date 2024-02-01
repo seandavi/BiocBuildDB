@@ -8,4 +8,4 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.0
 Authors@R: 
-    person("Sean", "Davis", role = c("aut","cre"))
+    person("Sean", "Davis", role = c("aut","cre"), email = 'seandavi@gmail.com')
