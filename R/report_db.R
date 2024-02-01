@@ -11,6 +11,7 @@
 report_last_mod_db <- function(reportdb_file) {
   if(file.exists(reportdb_file)) {
     reportdb = readr::read_csv(reportdb_file)
+    old_last_modified = as.POSIXct(reportdb$old_last_modified)
   } else {
     reportdb = tibble::tibble(
       url = character(0),
@@ -51,9 +52,9 @@ localize_all_new_reports <- function(reportdb_file, cache_dir = tempdir()) {
   all_data = new_reports |>
     dplyr::left_join(reportdb, by = "url")
   new_reports = all_data |>
-    dplyr::filter(is.na(old_last_modified) | last_modified > old_last_modified)
+    dplyr::filter(is.na(old_last_modified) | (last_modified > old_last_modified))
   sapply(new_reports$url, localize_report_tgz, local_dir = cache_dir)
   new_reports$old_last_modified = new_reports$last_modified
   new_reports$last_modified = NULL
-  write.csv(new_reports, reportdb_file, row.names = FALSE)
+  readr::write_csv(new_reports, reportdb_file)
 }

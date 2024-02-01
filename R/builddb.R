@@ -46,7 +46,7 @@ last_modified_date <- function(url) {
     httr2::req_perform() |>
     httr2::resp_header('Last-Modified') |>
     stringr::str_replace(' GMT', '') |>
-    clock::date_time_parse(format='%A, %d %B %Y %H:%M:%S', 'GMT')
+    clock::date_time_parse(format='%A, %d %B %Y %H:%M:%S', 'UTC')
   return(header_value)
 }
 
