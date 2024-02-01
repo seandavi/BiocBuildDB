@@ -55,7 +55,98 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-Build and maintain a bioc build database.
+<div class="section level1">
+<div class="page-header"><h1 id="biocbuilddb">BiocBuildDB<a class="anchor" aria-label="anchor" href="#biocbuilddb"></a>
+</h1></div>
+<!-- badges: start -->
+<!-- badges: end -->
+<p>This package simply provides a set of tools to work with the Bioconductor build system reports and for creating structured data from those reports.</p>
+<p>The Bioconductor build system is a complex system that builds and checks all Bioconductor packages on a regular basis. The build system produces a large set of reports for each build and those reports are packaged up in a <code>report.tgz</code> file. This package provides a set of tools to work with those reports and to cache them locally for further analysis.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version of BiocBuildDB from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"seandavi/BiocBuildDB"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="cache-reports-locally">Cache reports locally<a class="anchor" aria-label="anchor" href="#cache-reports-locally"></a>
+</h2>
+<p>This script will download all <code>new</code> reports from the Bioconductor build system and store them in a local directory. It will also create a csv file with the last modification date of each report.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">BiocBuildDB</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">'report_dir'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/localize_all_new_reports.html">localize_all_new_reports</a></span><span class="op">(</span><span class="st">'report_dir/last_mod_date.csv'</span>, <span class="st">'report_dir'</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="work-with-a-reporttgz-file">Work with a report.tgz file<a class="anchor" aria-label="anchor" href="#work-with-a-reporttgz-file"></a>
+</h2>
+<p>Show an example of how to work with a report.tgz file.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">BiocBuildDB</span><span class="op">)</span></span>
+<span><span class="va">report_tgz</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/example_report_tgz.html">example_report_tgz</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">report_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/untar_report_tgz.html">untar_report_tgz</a></span><span class="op">(</span><span class="va">report_tgz</span><span class="op">)</span></span>
+<span><span class="va">summary_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_build_summary_table.html">get_build_summary_table</a></span><span class="op">(</span><span class="va">report_dir</span><span class="op">)</span></span>
+<span><span class="va">info_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_info_table.html">get_info_table</a></span><span class="op">(</span><span class="va">report_dir</span><span class="op">)</span></span>
+<span><span class="va">prop_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_propagation_status_table.html">get_propagation_status_table</a></span><span class="op">(</span><span class="va">report_dir</span><span class="op">)</span></span></code></pre></div>
+<p>Show the first few rows of each table.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">summary_df</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 9</span></span>
+<span><span class="co">#&gt;   package     node  stage version status startedat           endedat            </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dttm&gt;              &lt;dttm&gt;             </span></span>
+<span><span class="co">#&gt; 1 AHCytoBands nebb… buil… 0.99.1  OK     2024-01-17 10:31:13 2024-01-17 10:31:14</span></span>
+<span><span class="co">#&gt; 2 AHCytoBands nebb… chec… 0.99.1  OK     2024-01-17 10:35:23 2024-01-17 10:35:31</span></span>
+<span><span class="co">#&gt; 3 AHCytoBands nebb… inst… 0.99.1  OK     2024-01-17 10:30:08 2024-01-17 10:30:11</span></span>
+<span><span class="co">#&gt; 4 AHEnsDbs    nebb… buil… 1.1.10  OK     2024-01-17 10:31:13 2024-01-17 10:32:01</span></span>
+<span><span class="co">#&gt; 5 AHEnsDbs    nebb… chec… 1.1.10  OK     2024-01-17 10:35:23 2024-01-17 10:37:24</span></span>
+<span><span class="co">#&gt; 6 AHEnsDbs    nebb… inst… 1.1.10  OK     2024-01-17 10:30:23 2024-01-17 10:30:49</span></span>
+<span><span class="co">#&gt; # ℹ 2 more variables: command &lt;chr&gt;, report_md5 &lt;chr&gt;</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">summary_df</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "package"    "node"       "stage"      "version"    "status"    </span></span>
+<span><span class="co">#&gt; [6] "startedat"  "endedat"    "command"    "report_md5"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">info_df</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 9</span></span>
+<span><span class="co">#&gt;   Package  Version Maintainer MaintainerEmail git_url git_branch git_last_commit</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;           &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;          </span></span>
+<span><span class="co">#&gt; 1 AHCytoB… 0.99.1  Michael L… michafla at ge… https:… RELEASE_3… 821428c        </span></span>
+<span><span class="co">#&gt; 2 AHEnsDbs 1.1.10  Johannes … johannes.raine… https:… RELEASE_3… 1cf652d        </span></span>
+<span><span class="co">#&gt; 3 AHLRBas… 0.99.3  Koki Tsuy… k.t.the-answer… https:… RELEASE_3… c0e6555        </span></span>
+<span><span class="co">#&gt; 4 AHMeSHD… 0.99.6  Koki Tsuy… k.t.the-answer… https:… RELEASE_3… 052e156        </span></span>
+<span><span class="co">#&gt; 5 AHPathb… 0.99.5  Kozo Nish… kozo.nishida a… https:… RELEASE_3… a90bfd4        </span></span>
+<span><span class="co">#&gt; 6 AHPubMe… 0.99.8  Koki Tsuy… k.t.the-answer… https:… RELEASE_3… f43d98f        </span></span>
+<span><span class="co">#&gt; # ℹ 2 more variables: git_last_commit_date &lt;dttm&gt;, report_md5 &lt;chr&gt;</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">info_df</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Package"              "Version"              "Maintainer"          </span></span>
+<span><span class="co">#&gt; [4] "MaintainerEmail"      "git_url"              "git_branch"          </span></span>
+<span><span class="co">#&gt; [7] "git_last_commit"      "git_last_commit_date" "report_md5"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">prop_df</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span><span class="co">#&gt;   package       process propagate                                     report_md5</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt;                                         &lt;chr&gt;     </span></span>
+<span><span class="co">#&gt; 1 AHCytoBands   source  UNNEEDED, same version is already published   f8fd2897c…</span></span>
+<span><span class="co">#&gt; 2 AHEnsDbs      source  UNNEEDED, same version is already published   f8fd2897c…</span></span>
+<span><span class="co">#&gt; 3 AHLRBaseDbs   source  NO, version to propagate (0.99.3) is lower t… f8fd2897c…</span></span>
+<span><span class="co">#&gt; 4 AHMeSHDbs     source  NO, version to propagate (0.99.6) is lower t… f8fd2897c…</span></span>
+<span><span class="co">#&gt; 5 AHPathbankDbs source  UNNEEDED, same version is already published   f8fd2897c…</span></span>
+<span><span class="co">#&gt; 6 AHPubMedDbs   source  NO, version to propagate (0.99.8) is lower t… f8fd2897c…</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">prop_df</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "package"    "process"    "propagate"  "report_md5"</span></span></code></pre></div>
+<p>Present a histogram of build times (in seconds) for the packages in the example build report.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">summary_df</span><span class="op">$</span><span class="va">endedat</span> <span class="op">-</span> <span class="va">summary_df</span><span class="op">$</span><span class="va">startedat</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
+</div>
+<div class="section level2">
+<h2 id="todo">TODO<a class="anchor" aria-label="anchor" href="#todo"></a>
+</h2>
+<ul class="task-list">
+<li><label><input type="checkbox">Function to run through all reports and create tables</label></li>
+<li><label><input type="checkbox">Function to create a database from the tables</label></li>
+</ul>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
