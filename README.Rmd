@@ -1,0 +1,81 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# BiocBuildDB
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+This package simply provides a set of tools to work with the Bioconductor
+build system reports and for creating structured data from those reports.
+
+The Bioconductor build system is a complex system that builds and checks
+all Bioconductor packages on a regular basis. The build system produces
+a large set of reports for each build and those reports are packaged up
+in a `report.tgz` file. This package provides a set of tools to work with
+those reports and to cache them locally for further analysis.
+
+## Installation
+
+You can install the development version of BiocBuildDB from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("seandavi/BiocBuildDB")
+```
+
+## Cache reports locally
+
+This script will download all `new` reports from the Bioconductor build 
+system and store them in a local directory. It will also create a csv 
+file with the last modification date of each report.
+
+```{r eval=FALSE}
+library(BiocBuildDB)
+dir.create('report_dir')
+localize_all_new_reports('report_dir/last_mod_date.csv', 'report_dir')
+```
+
+## Work with a report.tgz file
+
+Show an example of how to work with a report.tgz file.
+
+```{r}
+library(BiocBuildDB)
+report_tgz <- example_report_tgz()
+report_dir <- untar_report_tgz(report_tgz)
+summary_df <- get_build_summary_table(report_dir)
+info_df <- get_info_table(report_dir)
+prop_df <- get_propagation_status_table(report_dir)
+```
+
+Show the first few rows of each table.
+
+```{r}
+head(summary_df)
+colnames(summary_df)
+head(info_df)
+colnames(info_df)
+head(prop_df)
+colnames(prop_df)
+```
+
+Present a histogram of build times (in seconds) for the packages
+in the example build report.
+
+```{r}
+hist(as.numeric(summary_df$endedat - summary_df$startedat))
+```
+
