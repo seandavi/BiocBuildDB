@@ -22,10 +22,10 @@ localize_all_new_reports('report_dir/last_mod_date.csv', 'report_dir')
 ```
 library(BiocBuildDB)
 report_tgz <- example_report_tgz()
-report_dir <- untar_tar_gz(report_tgz)
+report_dir <- untar_report_tgz(report_tgz)
 summary_df <- get_build_summary_table(report_dir)
 info_df <- get_info_table(report_dir)
-prop_df <- get_propatation_status_table(report_dir)
+prop_df <- get_propagation_status_table(report_dir)
 ```
 
 
