@@ -4,6 +4,9 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/LICENSE.html</loc>
+  </url>
+  <url>
     <loc>/authors.html</loc>
   </url>
   <url>
@@ -14,6 +17,9 @@
   </url>
   <url>
     <loc>/reference/example_report_directory.html</loc>
+  </url>
+  <url>
+    <loc>/reference/example_report_tgz.html</loc>
   </url>
   <url>
     <loc>/reference/get_build_summary_table.html</loc>
@@ -34,9 +40,21 @@
     <loc>/reference/last_modified_date.html</loc>
   </url>
   <url>
+    <loc>/reference/localize_all_new_reports.html</loc>
+  </url>
+  <url>
     <loc>/reference/localize_report_tgz.html</loc>
   </url>
   <url>
+    <loc>/reference/report_last_mod_db.html</loc>
+  </url>
+  <url>
     <loc>/reference/reports_last_mod_db.html</loc>
+  </url>
+  <url>
+    <loc>/reference/reports_last_mod_table.html</loc>
+  </url>
+  <url>
+    <loc>/reference/untar_report_tgz.html</loc>
   </url>
 </urlset>

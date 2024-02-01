@@ -50,7 +50,9 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>report_dir</dt>
-<dd><p>The directory containing the extracted report tarball</p></dd>
+<dd><p>The directory containing the extracted report tarball.
+The report_dir should have been created by localize_report_tgz and
+should have class 'report_dir' with at least the `md5` attribute.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -59,7 +61,22 @@
 
 <p>A data frame with one row per package</p>
     </div>
+    <div id="author">
+    <h2>Author</h2>
+    <p>Sean Davis &lt;seandavi@gmail.com&gt;</p>
+    </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">report_tgz</span> <span class="op">=</span> <span class="fu"><a href="example_report_tgz.html">example_report_tgz</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in example_report_tgz():</span> could not find function "example_report_tgz"</span>
+<span class="r-in"><span><span class="va">report_dir</span> <span class="op">=</span> <span class="fu"><a href="untar_report_tgz.html">untar_report_tgz</a></span><span class="op">(</span><span class="va">report_tgz</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in untar_report_tgz(report_tgz):</span> could not find function "untar_report_tgz"</span>
+<span class="r-in"><span><span class="fu">get_info_table</span><span class="op">(</span><span class="va">report_dir</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get_info_table(report_dir):</span> could not find function "get_info_table"</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -68,7 +85,7 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by The package maintainer.</p>
+  <p></p><p>Developed by Sean Davis.</p>
 </div>
 
 <div class="pkgdown">
