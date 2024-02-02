@@ -22,23 +22,44 @@ You can install the development version of BiocBuildDB from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("seandavi/BiocBuildDB")
+# install.packages("BiocManager")
+BiocManager("seandavi/BiocBuildDB")
 ```
 
-## Cache reports locally
+## Basic usage
 
-This script will download all `new` reports from the Bioconductor build
-system and store them in a local directory. It will also create a csv
-file with the last modification date of each report.
+To process all new build reports (those that changed since the last
+processing), you can use the following code:
 
 ``` r
 library(BiocBuildDB)
+reportdb_filename = 'reportdb.csv'
 dir.create('report_dir')
-localize_all_new_reports('report_dir/last_mod_date.csv', 'report_dir')
+process_all_new_reports(reportdb_filename, 'report_dir')
 ```
 
-## Work with a report.tgz file
+If the `reportdb.csv` file does not exist, it will be created. If it
+does exist, it will be read and updated after successfully localizing
+(copying) the new report.tgz files to the `report_dir` directory.
+
+The `process_all_new_reports` function will untar each report.tgz file
+and create a set of tables from the report directory. The tables will be
+written to files in the `report_dir` directory with the md5 hash of the
+report directory as a prefix.
+
+The result will be a `report_dir` directory with a set of csv files
+containing the tables from the report directories as well as the
+`report.tgz` files. Related files are named with the same md5 hash
+prefix of the report.tgz file.
+
+**After running this, you may want to sync the `report_dir` directory
+with a cloud storage service such as Amazon S3 or Google Cloud Storage
+for safe keeping.**
+
+## Work with a report.tgz file (just FYI)
+
+You shouldn’t need to use this functionality directly, but it is here to
+show how the package works and some example output in the tables.
 
 Show an example of how to work with a report.tgz file.
 
@@ -108,5 +129,4 @@ hist(as.numeric(summary_df$endedat - summary_df$startedat))
 
 ## TODO
 
-- [ ] Function to run through all reports and create tables
 - [ ] Function to create a database from the tables

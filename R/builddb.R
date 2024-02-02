@@ -159,6 +159,10 @@ get_build_summary_table <- function(report_dir) {
   summary_dcf_files <- list.files(
     report_dir, pattern = '-summary\\.dcf$', recursive = TRUE, full.names = TRUE
   )
+  if (length(summary_dcf_files) == 0) {
+    warning("No summary.dcf files found in ", report_dir)
+    return(NULL)
+  }
   df <- do.call(rbind, lapply(summary_dcf_files, .read_summary_dcf_file))
   df <- tibble::as_tibble(df)
   colnames(df) <- tolower(colnames(df))
@@ -197,6 +201,10 @@ get_info_table <- function(report_dir) {
   info_dcf_files <- list.files(
     report_dir, pattern = 'info\\.dcf$', recursive = TRUE, full.names = TRUE
   )
+  if (length(info_dcf_files) == 0) {
+    warning("No info.dcf files found in ", report_dir)
+    return(NULL)
+  }
   df <- do.call(rbind.data.frame, lapply(info_dcf_files, read.dcf))
   df <- tibble::as_tibble(df) |>
     dplyr::mutate(
@@ -230,7 +238,11 @@ get_propagation_status_table <- function(report_dir) {
     pattern = 'PROPAGATION_STATUS_DB.txt$',
     recursive = TRUE,
     full.names = TRUE
-  )[1]
+  )
+  if (length(prop_status_db) == 0) {
+    warning("No PROPAGATION_STATUS_DB.txt files found in ", report_dir)
+    return(NULL)
+  }
   readr::read_delim(
     prop_status_db, delim = '#',
     col_names = c('package','process','propagate'),
