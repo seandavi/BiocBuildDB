@@ -52,10 +52,12 @@ process_all_new_reports <- function(reportdb_file, local_dir) {
     local_dir, pattern = "-report.tgz",
     full.names = TRUE)
   for (report_tgz in reports) {
+    message("Processing ", report_tgz)
     report_dir = untar_report_tgz(report_tgz)
     tables = tables_from_report_dir(report_dir)
     md5 = attr(report_dir, 'md5')
     write_tables_to_files(tables, local_dir, md5)
     unlink(report_dir, recursive = TRUE)
+    message("Processed ", report_tgz)
   }
 }
