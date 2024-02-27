@@ -26,19 +26,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: rclone_listremotes
+        uses: wei/rclone@v1
+        env:
+          RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
+        with:
+          args: listremotes
+
       - uses: r-lib/actions/setup-pandoc@v2
 
       - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
-
-      - name: Setup Rclone
-        uses: AnimMouse/setup-rclone@v1
-        with:
-          rclone_config: ${{ secrets.RCLONE_CONFIG }}
-
-      - name: listremotes
-        run: 'rclone listremotes'
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -51,8 +50,13 @@ jobs:
 
       - name: create_reportdir
         run: mkdir -p report_dir
-
-      - run: 'rclone copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/'
+        
+      - name: rclone_listremotes
+        uses: wei/rclone@v1
+        env:
+          RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
+        with:
+          args: copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/
 
       - name: "run workflow"
         run: |
@@ -62,4 +66,9 @@ jobs:
           list.files('report_dir')
         shell: Rscript {0}
   
-      - run: 'rclone copy report_dir/ r2:bioconductor/checkResults/'
+      - name: rclone_listremotes
+        uses: wei/rclone@v1
+        env:
+          RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
+        with:
+          args: copy report_dir/ r2:bioconductor/checkResults/
