@@ -21,7 +21,6 @@ jobs:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secret.RCLONE_CONFIG_R2_ACCESS_KEY_ID }}
     permissions:
       contents: write
     steps:
