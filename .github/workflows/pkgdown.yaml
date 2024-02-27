@@ -32,13 +32,13 @@ jobs:
           rclone_config: ${{ secrets.RCLONE_CONFIG }}
 
       - name: listremotes
-        run: rclone listremotes
+        run: 'rclone listremotes'
 
       - name: create_reportdir
         run: mkdir -p report_dir
         
       - name: rclone_copy_last_mod_date
-        run: rclone copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/
+        run: 'rclone copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/'
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -62,9 +62,6 @@ jobs:
           process_all_new_reports('report_dir/last_mod_date.csv', 'report_dir')
           list.files('report_dir')
         shell: Rscript {0}
-  
-      - name: create_reportdir
-        run: mkdir -p report_dir
         
-      - name: rclone_copy_last_mod_date
-        run: rclone copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/copy report_dir/ r2:bioconductor/checkResults/
+      - name: rclone_sync_results
+        run: 'rclone copy report_dir/ r2:bioconductor/checkResults/'
