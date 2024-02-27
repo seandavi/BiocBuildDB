@@ -21,6 +21,7 @@ jobs:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secret.RCLONE_CONFIG_R2_ACCESS_KEY_ID }}
     permissions:
       contents: write
     steps:
@@ -32,6 +33,11 @@ jobs:
         with:
           use-public-rspm: true
 
+      - name: Setup Rclone
+        uses: AnimMouse/setup-rclone@v1
+        with:
+          rclone_config: ${{ secrets.RCLONE_CONFIG }}
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::pkgdown, any::devtools, local::.
@@ -41,6 +47,11 @@ jobs:
         run: devtools::install('.', dependencies = TRUE)
         shell: Rscript {0}
 
+      - name: create_reportdir
+        run: mkdir report_dir
+      
+      - run: rclone copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/
+
       - name: "run workflow"
         run: |
           library(BiocBuildDB)
@@ -48,11 +59,5 @@ jobs:
           process_all_new_reports('report_dir/last_mod_date.csv', 'report_dir')
           list.files('report_dir')
         shell: Rscript {0}
-
-      - name: Commit results
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add report_dir/last_mod_date.csv
-          git commit -m 'Data updated' || echo "No changes to commit"
-          git push origin || echo "No changes to commit"
+  
+      - run: rclone copy report_dir/ r2:bioconductor/checkResults/
