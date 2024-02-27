@@ -53,7 +53,7 @@ localize_all_new_reports <- function(reportdb_file, cache_dir = tempdir()) {
     dplyr::left_join(reportdb, by = "url")
   new_reports = all_data |>
     dplyr::filter(is.na(old_last_modified) | (last_modified > old_last_modified))
-  sapply(new_reports$url, localize_report_tgz, local_dir = cache_dir)
+  #sapply(new_reports$url, localize_report_tgz, local_dir = cache_dir)
   new_reports$old_last_modified = new_reports$last_modified
   new_reports$last_modified = NULL
   readr::write_csv(new_reports, reportdb_file)

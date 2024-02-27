@@ -9,10 +9,10 @@ on:
     types: [published]
   workflow_dispatch:
 
-name: pkgdown
+name: process_new_reports
 
 jobs:
-  pkgdown:
+  process_new_reports:
     runs-on: ubuntu-latest
     # Only restrict concurrency for non-PR jobs
     concurrency:
