@@ -37,6 +37,9 @@ jobs:
         with:
           rclone_config: ${{ secrets.RCLONE_CONFIG }}
 
+      - name: listremotes
+        run: 'rclone listremotes'
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::pkgdown, any::devtools, local::.
@@ -48,7 +51,7 @@ jobs:
 
       - name: create_reportdir
         run: mkdir -p report_dir
-      
+
       - run: 'rclone copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/'
 
       - name: "run workflow"
