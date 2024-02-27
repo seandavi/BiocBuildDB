@@ -29,7 +29,7 @@ jobs:
       - name: rclone_listremotes
         uses: wei/rclone@v1
         env:
-          RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
+          RCLONE_CONF: ${{ secrets.RCLONE_CONFIG }}
         with:
           args: listremotes
 
@@ -54,7 +54,7 @@ jobs:
       - name: rclone_listremotes
         uses: wei/rclone@v1
         env:
-          RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
+          RCLONE_CONF: ${{ secrets.RCLONE_CONFIG }}
         with:
           args: copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/
 
@@ -69,6 +69,6 @@ jobs:
       - name: rclone_listremotes
         uses: wei/rclone@v1
         env:
-          RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
+          RCLONE_CONF: ${{ secrets.RCLONE_CONFIG }}
         with:
           args: copy report_dir/ r2:bioconductor/checkResults/
