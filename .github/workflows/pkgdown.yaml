@@ -47,7 +47,7 @@ jobs:
         shell: Rscript {0}
 
       - name: create_reportdir
-        run: mkdir report_dir
+        run: mkdir -p report_dir
       
       - run: rclone copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/
 
