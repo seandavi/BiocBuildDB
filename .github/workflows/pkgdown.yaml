@@ -34,6 +34,12 @@ jobs:
       - name: listremotes
         run: rclone listremotes
 
+      - name: create_reportdir
+        run: mkdir -p report_dir
+        
+      - name: rclone_copy_last_mod_date
+        run: rclone copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/
+
       - uses: r-lib/actions/setup-pandoc@v2
 
       - uses: r-lib/actions/setup-r@v2
@@ -49,16 +55,6 @@ jobs:
         run: devtools::install('.', dependencies = TRUE)
         shell: Rscript {0}
 
-      - name: create_reportdir
-        run: mkdir -p report_dir
-        
-      - name: rclone_listremotes
-        uses: wei/rclone@v1
-        env:
-          RCLONE_CONF: ${{ secrets.RCLONE_CONFIG }}
-        with:
-          args: copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/
-
       - name: "run workflow"
         run: |
           library(BiocBuildDB)
@@ -67,9 +63,8 @@ jobs:
           list.files('report_dir')
         shell: Rscript {0}
   
-      - name: rclone_listremotes
-        uses: wei/rclone@v1
-        env:
-          RCLONE_CONF: ${{ secrets.RCLONE_CONFIG }}
-        with:
-          args: copy report_dir/ r2:bioconductor/checkResults/
+      - name: create_reportdir
+        run: mkdir -p report_dir
+        
+      - name: rclone_copy_last_mod_date
+        run: rclone copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/copy report_dir/ r2:bioconductor/checkResults/
