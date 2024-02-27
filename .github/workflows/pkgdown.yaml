@@ -26,12 +26,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: rclone_listremotes
-        uses: wei/rclone@v1
-        env:
-          RCLONE_CONF: ${{ secrets.RCLONE_CONFIG }}
+      - name: Setup Rclone
+        uses: AnimMouse/setup-rclone@v1
         with:
-          args: listremotes
+          rclone_config: ${{ secrets.RCLONE_CONFIG }}
+
+      - name: listremotes
+        run: rclone listremotes
 
       - uses: r-lib/actions/setup-pandoc@v2
 
