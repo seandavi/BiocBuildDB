@@ -3,7 +3,7 @@ Type: Package
 Title: Functions to maintain a bioconductor build report database
 Version: 0.1.1
 Description: Build and maintain a bioc build database.
-Imports: clock, lubridate, dplyr, readr, stringr
+Imports: clock, lubridate, dplyr, readr, stringr, rvest
 License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
