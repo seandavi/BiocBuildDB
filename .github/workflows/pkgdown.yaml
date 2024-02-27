@@ -49,7 +49,7 @@ jobs:
       - name: create_reportdir
         run: mkdir -p report_dir
       
-      - run: rclone copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/
+      - run: 'rclone copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/'
 
       - name: "run workflow"
         run: |
@@ -59,4 +59,4 @@ jobs:
           list.files('report_dir')
         shell: Rscript {0}
   
-      - run: rclone copy report_dir/ r2:bioconductor/checkResults/
+      - run: 'rclone copy report_dir/ r2:bioconductor/checkResults/'
