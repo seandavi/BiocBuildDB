@@ -33,7 +33,7 @@ jobs:
       - name: Run sync
         shell: bash
         env:
-          RCLONE_CONFIG: \${{ secrets.RCLONE_CONFIG }}
+          RCLONE_CONFIG: ${{ secrets.RCLONE_CONFIG }}
         run: |
           set -ex
           echo $RCLONE_CONFIG | base64 -d > rclone.conf
