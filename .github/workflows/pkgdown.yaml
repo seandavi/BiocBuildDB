@@ -21,7 +21,6 @@ jobs:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      RCLONE_CONFIG: ${{ secrets.RCLONE_CONFIG }}
     permissions:
       contents: write
     steps:
@@ -30,7 +29,7 @@ jobs:
       - name: Setup Rclone
         uses: AnimMouse/setup-rclone@v1
         with:
-          rclone_config: ${{ secrets.RCLONE_CONFIG }}
+          rclone_config: "${{ secrets.RCLONE_CONFIG }}"
 
       - name: listremotes
         run: 'rclone listremotes'
