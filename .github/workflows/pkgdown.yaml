@@ -40,15 +40,11 @@ jobs:
           rclone \
             --config rclone.conf \
             listremotes
-          cat rclone.conf
 
-      - name: create_reportdir
+      - name: Create report directory
         run: mkdir -p report_dir
-
-      - name: check_config
-        run: cat rclone.conf
         
-      - name: rclone_copy_last_mod_date
+      - name: rclone copy last_mod_date.csv
         run: 'rclone --config rclone.conf copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/'
 
       - uses: r-lib/actions/setup-pandoc@v2
@@ -66,13 +62,12 @@ jobs:
         run: devtools::install('.', dependencies = TRUE)
         shell: Rscript {0}
 
-      - name: "run workflow"
+      - name: Process new build reports
         run: |
           library(BiocBuildDB)
-          dir.create('report_dir')
           process_all_new_reports('report_dir/last_mod_date.csv', 'report_dir')
           list.files('report_dir')
         shell: Rscript {0}
         
-      - name: rclone_sync_results
+      - name: Rclone copy results to cloud storage
         run: 'rclone --config rclone.conf copy report_dir/ r2:bioconductor/checkResults/'
