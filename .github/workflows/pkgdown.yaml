@@ -30,7 +30,7 @@ jobs:
       - name: Setup Rclone
         uses: AnimMouse/setup-rclone@v1
         with:
-          rclone_config: "${{ env.RCLONE_CONFIG }}"
+          rclone_config: "${{ vars.RCLONE_CONFIG }}"
 
       - name: listremotes
         run: 'rclone listremotes'
