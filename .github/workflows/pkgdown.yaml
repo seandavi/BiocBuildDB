@@ -43,6 +43,9 @@ jobs:
 
       - name: create_reportdir
         run: mkdir -p report_dir
+
+      - name: check_config
+        run: cat rclone.conf
         
       - name: rclone_copy_last_mod_date
         run: 'rclone --config rclone.conf copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/'
