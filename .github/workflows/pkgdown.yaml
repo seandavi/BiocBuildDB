@@ -30,7 +30,7 @@ jobs:
       - name: Install rclone
         run: |
           curl https://rclone.org/install.sh | sudo bash        
-      - name: Run sync
+      - name: rclone
         shell: bash
         env:
           RCLONE_CONFIG: "${{ vars.RCLONE_CONFIG }}"
@@ -40,6 +40,7 @@ jobs:
           rclone \
             --config rclone.conf \
             listremotes
+          cat rclone.conf
 
       - name: create_reportdir
         run: mkdir -p report_dir
