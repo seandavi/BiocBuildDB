@@ -27,19 +27,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Rclone
-        uses: AnimMouse/setup-rclone@v1
-        with:
-          rclone_config: "${{ vars.RCLONE_CONFIG }}"
-
-      - name: listremotes
-        run: 'rclone listremotes'
+      - name: Install rclone
+        run: |
+          curl https://rclone.org/install.sh | sudo bash        
+      - name: Run sync
+        shell: bash
+        env:
+          RCLONE_CONFIG: \${{ secrets.RCLONE_CONFIG }}
+        run: |
+          set -ex
+          echo $RCLONE_CONFIG | base64 -d > rclone.conf
+          rclone \
+            --config rclone.conf \
+            listremotes
 
       - name: create_reportdir
         run: mkdir -p report_dir
         
       - name: rclone_copy_last_mod_date
-        run: 'rclone copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/'
+        run: 'rclone --config rclone.conf copy r2:bioconductor/checkResults/last_mod_date.csv report_dir/'
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -65,4 +71,4 @@ jobs:
         shell: Rscript {0}
         
       - name: rclone_sync_results
-        run: 'rclone copy report_dir/ r2:bioconductor/checkResults/'
+        run: 'rclone --config rclone.conf copy report_dir/ r2:bioconductor/checkResults/'
