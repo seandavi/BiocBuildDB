@@ -16,6 +16,9 @@ name: process_new_reports
 jobs:
   process_new_reports:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     # Only restrict concurrency for non-PR jobs
     concurrency:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
