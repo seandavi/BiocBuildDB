@@ -1,0 +1,289 @@
+# Monthly release workflow to stack all CSV files from S3 and create a release
+# 
+# This workflow:
+# 1. Downloads all .csv.gz files from s3://bioc-builddb-mirror/buildResults/
+# 2. Stacks them into three combined files: info, propagation_status, build_summary
+# 3. Creates a GitHub release with the stacked files
+#
+name: monthly_release
+
+on:
+  schedule:
+    # Run on the 1st of every month at 6:00 AM UTC
+    - cron: "0 6 1 * *"
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag (e.g., 2024-01). Defaults to current year-month.'
+        required: false
+        type: string
+
+jobs:
+  create_monthly_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set release tag
+        id: set_tag
+        run: |
+          if [ -n "${{ inputs.release_tag }}" ]; then
+            echo "tag=${{ inputs.release_tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=$(date +'%Y-%m')" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pigz parallel
+
+      - name: Create output directories
+        run: |
+          mkdir -p stacked_data
+          mkdir -p temp_data/info
+          mkdir -p temp_data/propagation_status
+          mkdir -p temp_data/build_summary
+
+      - name: Download all CSV files from S3 using sync
+        run: |
+          echo "Syncing CSV files from S3 (this may take a while)..."
+          
+          # Use aws s3 sync with --exclude and --include to only get .csv.gz files
+          # The --no-sign-request flag allows public bucket access
+          aws s3 sync s3://bioc-builddb-mirror/buildResults/ temp_data/all/ \
+            --no-sign-request \
+            --exclude "*" \
+            --include "*-info.csv.gz" \
+            --include "*-propagation_status.csv.gz" \
+            --include "*-build_summary.csv.gz"
+          
+          echo "Download complete. Files downloaded:"
+          ls temp_data/all/*.csv.gz 2>/dev/null | wc -l || echo "0"
+
+      - name: Organize files by type
+        run: |
+          echo "Organizing files by type..."
+          
+          # Move files to appropriate directories
+          mv temp_data/all/*-info.csv.gz temp_data/info/ 2>/dev/null || true
+          mv temp_data/all/*-propagation_status.csv.gz temp_data/propagation_status/ 2>/dev/null || true
+          mv temp_data/all/*-build_summary.csv.gz temp_data/build_summary/ 2>/dev/null || true
+          
+          echo "Info files: $(ls temp_data/info/*.csv.gz 2>/dev/null | wc -l || echo 0)"
+          echo "Propagation status files: $(ls temp_data/propagation_status/*.csv.gz 2>/dev/null | wc -l || echo 0)"
+          echo "Build summary files: $(ls temp_data/build_summary/*.csv.gz 2>/dev/null | wc -l || echo 0)"
+
+      - name: Stack info files
+        run: |
+          echo "Stacking info files..."
+          shopt -s nullglob
+          info_files=(temp_data/info/*-info.csv.gz)
+          
+          if [ ${#info_files[@]} -gt 0 ]; then
+            echo "Processing ${#info_files[@]} info files..."
+            
+            # Get header from first file
+            zcat "${info_files[0]}" | head -1 > stacked_data/all_info.csv
+            
+            # Append data from all files (skipping headers) using parallel decompression
+            for f in "${info_files[@]}"; do
+              zcat "$f" | tail -n +2
+            done >> stacked_data/all_info.csv
+            
+            rows=$(($(wc -l < stacked_data/all_info.csv) - 1))
+            echo "Stacked $rows data rows into all_info.csv"
+            
+            # Compress with pigz for speed
+            pigz -9 stacked_data/all_info.csv
+          else
+            echo "No info files found"
+          fi
+
+      - name: Stack propagation_status files
+        run: |
+          echo "Stacking propagation_status files..."
+          shopt -s nullglob
+          prop_files=(temp_data/propagation_status/*-propagation_status.csv.gz)
+          
+          if [ ${#prop_files[@]} -gt 0 ]; then
+            echo "Processing ${#prop_files[@]} propagation_status files..."
+            
+            # Get header from first file
+            zcat "${prop_files[0]}" | head -1 > stacked_data/all_propagation_status.csv
+            
+            # Append data from all files (skipping headers)
+            for f in "${prop_files[@]}"; do
+              zcat "$f" | tail -n +2
+            done >> stacked_data/all_propagation_status.csv
+            
+            rows=$(($(wc -l < stacked_data/all_propagation_status.csv) - 1))
+            echo "Stacked $rows data rows into all_propagation_status.csv"
+            
+            pigz -9 stacked_data/all_propagation_status.csv
+          else
+            echo "No propagation_status files found"
+          fi
+
+      - name: Stack build_summary files
+        run: |
+          echo "Stacking build_summary files..."
+          shopt -s nullglob
+          summary_files=(temp_data/build_summary/*-build_summary.csv.gz)
+          
+          if [ ${#summary_files[@]} -gt 0 ]; then
+            echo "Processing ${#summary_files[@]} build_summary files..."
+            
+            # Get header from first file
+            zcat "${summary_files[0]}" | head -1 > stacked_data/all_build_summary.csv
+            
+            # Append data from all files (skipping headers)
+            for f in "${summary_files[@]}"; do
+              zcat "$f" | tail -n +2
+            done >> stacked_data/all_build_summary.csv
+            
+            rows=$(($(wc -l < stacked_data/all_build_summary.csv) - 1))
+            echo "Stacked $rows data rows into all_build_summary.csv"
+            
+            pigz -9 stacked_data/all_build_summary.csv
+          else
+            echo "No build_summary files found"
+          fi
+
+      - name: Create manifest
+        run: |
+          echo "Creating manifest..."
+          
+          RELEASE_TAG="${{ steps.set_tag.outputs.tag }}"
+          
+          # Count source files
+          info_count=$(ls temp_data/info/*.csv.gz 2>/dev/null | wc -l || echo 0)
+          prop_count=$(ls temp_data/propagation_status/*.csv.gz 2>/dev/null | wc -l || echo 0)
+          summary_count=$(ls temp_data/build_summary/*.csv.gz 2>/dev/null | wc -l || echo 0)
+          
+          cat > stacked_data/MANIFEST.md << EOF
+          # Bioconductor Build Report Data - ${RELEASE_TAG}
+          
+          Generated: $(date -u +'%Y-%m-%d %H:%M:%S UTC')
+          
+          ## Summary
+          
+          This release contains stacked/combined CSV files from all Bioconductor build reports.
+          
+          - Source files processed: $((info_count + prop_count + summary_count))
+          - Info files: ${info_count}
+          - Propagation status files: ${prop_count}
+          - Build summary files: ${summary_count}
+          
+          ## Files
+          
+          | File | Description | Rows | Size |
+          |------|-------------|------|------|
+          EOF
+          
+          for f in stacked_data/*.csv.gz; do
+            if [ -f "$f" ]; then
+              filename=$(basename "$f")
+              rows=$(($(zcat "$f" | wc -l) - 1))
+              size=$(ls -lh "$f" | awk '{print $5}')
+              case "$filename" in
+                all_info.csv.gz)
+                  desc="Package metadata and git information"
+                  ;;
+                all_propagation_status.csv.gz)
+                  desc="Package propagation status across builds"
+                  ;;
+                all_build_summary.csv.gz)
+                  desc="Build summary with timing and status"
+                  ;;
+                *)
+                  desc="Data file"
+                  ;;
+              esac
+              echo "| ${filename} | ${desc} | ${rows} | ${size} |" >> stacked_data/MANIFEST.md
+            fi
+          done
+          
+          cat >> stacked_data/MANIFEST.md << EOF
+          
+          ## Source
+          
+          Data sourced from: \`s3://bioc-builddb-mirror/buildResults/\`
+          
+          The source bucket is publicly accessible:
+          \`\`\`bash
+          aws s3 ls s3://bioc-builddb-mirror/buildResults/ --no-sign-request
+          \`\`\`
+          
+          ## Usage
+          
+          ### R
+          \`\`\`r
+          library(readr)
+          
+          # Download and read directly from release
+          info <- read_csv("https://github.com/seandavi/BiocBuildDB/releases/download/${RELEASE_TAG}/all_info.csv.gz")
+          build_summary <- read_csv("https://github.com/seandavi/BiocBuildDB/releases/download/${RELEASE_TAG}/all_build_summary.csv.gz")
+          propagation_status <- read_csv("https://github.com/seandavi/BiocBuildDB/releases/download/${RELEASE_TAG}/all_propagation_status.csv.gz")
+          \`\`\`
+          
+          ### Python
+          \`\`\`python
+          import pandas as pd
+          
+          info = pd.read_csv("all_info.csv.gz")
+          build_summary = pd.read_csv("all_build_summary.csv.gz")
+          propagation_status = pd.read_csv("all_propagation_status.csv.gz")
+          \`\`\`
+          
+          ## Data Dictionary
+          
+          ### all_info.csv.gz
+          Contains package metadata extracted from \`info.dcf\` files, including:
+          - Package name and version
+          - Git commit information
+          - Maintainer details
+          - Dependencies
+          
+          ### all_build_summary.csv.gz
+          Contains build process summaries from \`*-summary.dcf\` files, including:
+          - Package, Version, Status
+          - Build node and stage
+          - Start and end times
+          - Build commands
+          
+          ### all_propagation_status.csv.gz
+          Contains package propagation status from \`PROPAGATION_STATUS_DB.txt\` files, including:
+          - Package name
+          - Build process
+          - Propagation decision
+          EOF
+          
+          cat stacked_data/MANIFEST.md
+
+      - name: List output files
+        run: |
+          echo "Output files:"
+          ls -lh stacked_data/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.set_tag.outputs.tag }}
+          name: "Bioconductor Build Data - ${{ steps.set_tag.outputs.tag }}"
+          body_path: stacked_data/MANIFEST.md
+          files: |
+            stacked_data/all_info.csv.gz
+            stacked_data/all_propagation_status.csv.gz
+            stacked_data/all_build_summary.csv.gz
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cleanup
+        run: |
+          rm -rf temp_data stacked_data
