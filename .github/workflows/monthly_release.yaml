@@ -40,6 +40,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y pigz parallel
+          pip install pandas pyarrow
 
       - name: Create output directories
         run: |
@@ -153,6 +154,28 @@ jobs:
             echo "No build_summary files found"
           fi
 
+      - name: Convert CSV to Parquet
+        run: |
+          echo "Converting CSV files to Parquet format..."
+          python3 << 'PYTHON_SCRIPT'
+          import pandas as pd
+          import glob
+          import os
+          
+          for csv_file in glob.glob('stacked_data/*.csv.gz'):
+              print(f"Converting {csv_file}...")
+              try:
+                  df = pd.read_csv(csv_file, low_memory=False)
+                  parquet_file = csv_file.replace('.csv.gz', '.parquet')
+                  df.to_parquet(parquet_file, index=False, compression='snappy')
+                  print(f"  Created {parquet_file} ({len(df)} rows)")
+              except Exception as e:
+                  print(f"  Error converting {csv_file}: {e}")
+          PYTHON_SCRIPT
+          
+          echo "Parquet conversion complete."
+          ls -lh stacked_data/*.parquet 2>/dev/null || echo "No parquet files created"
+
       - name: Create manifest
         run: |
           echo "Creating manifest..."
@@ -171,7 +194,7 @@ jobs:
           
           ## Summary
           
-          This release contains stacked/combined CSV files from all Bioconductor build reports.
+          This release contains stacked/combined CSV and Parquet files from all Bioconductor build reports.
           
           - Source files processed: $((info_count + prop_count + summary_count))
           - Info files: ${info_count}
@@ -184,19 +207,26 @@ jobs:
           |------|-------------|------|------|
           EOF
           
-          for f in stacked_data/*.csv.gz; do
+          for f in stacked_data/*.csv.gz stacked_data/*.parquet; do
             if [ -f "$f" ]; then
               filename=$(basename "$f")
-              rows=$(($(zcat "$f" | wc -l) - 1))
               size=$(ls -lh "$f" | awk '{print $5}')
+              
+              # Get row count depending on file type
+              if [[ "$f" == *.csv.gz ]]; then
+                rows=$(($(zcat "$f" | wc -l) - 1))
+              else
+                rows="-"
+              fi
+              
               case "$filename" in
-                all_info.csv.gz)
+                all_info.csv.gz|all_info.parquet)
                   desc="Package metadata and git information"
                   ;;
-                all_propagation_status.csv.gz)
+                all_propagation_status.csv.gz|all_propagation_status.parquet)
                   desc="Package propagation status across builds"
                   ;;
-                all_build_summary.csv.gz)
+                all_build_summary.csv.gz|all_build_summary.parquet)
                   desc="Build summary with timing and status"
                   ;;
                 *)
@@ -220,7 +250,7 @@ jobs:
           
           ## Usage
           
-          ### R
+          ### R (CSV)
           \`\`\`r
           library(readr)
           
@@ -230,7 +260,16 @@ jobs:
           propagation_status <- read_csv("https://github.com/seandavi/BiocBuildDB/releases/download/${RELEASE_TAG}/all_propagation_status.csv.gz")
           \`\`\`
           
-          ### Python
+          ### R (Parquet)
+          \`\`\`r
+          library(arrow)
+          
+          info <- read_parquet("https://github.com/seandavi/BiocBuildDB/releases/download/${RELEASE_TAG}/all_info.parquet")
+          build_summary <- read_parquet("https://github.com/seandavi/BiocBuildDB/releases/download/${RELEASE_TAG}/all_build_summary.parquet")
+          propagation_status <- read_parquet("https://github.com/seandavi/BiocBuildDB/releases/download/${RELEASE_TAG}/all_propagation_status.parquet")
+          \`\`\`
+          
+          ### Python (CSV)
           \`\`\`python
           import pandas as pd
           
@@ -239,23 +278,32 @@ jobs:
           propagation_status = pd.read_csv("all_propagation_status.csv.gz")
           \`\`\`
           
+          ### Python (Parquet)
+          \`\`\`python
+          import pandas as pd
+          
+          info = pd.read_parquet("all_info.parquet")
+          build_summary = pd.read_parquet("all_build_summary.parquet")
+          propagation_status = pd.read_parquet("all_propagation_status.parquet")
+          \`\`\`
+          
           ## Data Dictionary
           
-          ### all_info.csv.gz
+          ### all_info
           Contains package metadata extracted from \`info.dcf\` files, including:
           - Package name and version
           - Git commit information
           - Maintainer details
           - Dependencies
           
-          ### all_build_summary.csv.gz
+          ### all_build_summary
           Contains build process summaries from \`*-summary.dcf\` files, including:
           - Package, Version, Status
           - Build node and stage
           - Start and end times
           - Build commands
           
-          ### all_propagation_status.csv.gz
+          ### all_propagation_status
           Contains package propagation status from \`PROPAGATION_STATUS_DB.txt\` files, including:
           - Package name
           - Build process
@@ -279,6 +327,9 @@ jobs:
             stacked_data/all_info.csv.gz
             stacked_data/all_propagation_status.csv.gz
             stacked_data/all_build_summary.csv.gz
+            stacked_data/all_info.parquet
+            stacked_data/all_propagation_status.parquet
+            stacked_data/all_build_summary.parquet
           draft: false
           prerelease: false
         env:
