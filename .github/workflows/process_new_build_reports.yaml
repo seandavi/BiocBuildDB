@@ -97,6 +97,6 @@ jobs:
               TYPE S3,
               PROVIDER CREDENTIAL_CHAIN
           );
-          COPY (SELECT * FROM read_csv_auto('s3://bioc-builddb-mirror/buildResults/*info.csv.gz')) TO 'report_dir/parquet/info.parquet' (FORMAT PARQUET, compression zstd);
-          COPY (SELECT * FROM read_csv_auto('s3://bioc-builddb-mirror/buildResults/*propagation_status.csv.gz')) TO 'report_dir/parquet/propagation_status.parquet' (FORMAT PARQUET, compression zstd);
-          COPY (SELECT * FROM read_csv_auto('s3://bioc-builddb-mirror/buildResults/*build_summary.csv.gz')) TO 'report_dir/parquet/build_summary.parquet' (FORMAT PARQUET, compression zstd);"
+          COPY (SELECT * FROM read_csv_auto('s3://bioc-builddb-mirror/buildResults/*info.csv.gz')) TO 's3://bioc-builddb-mirror/parquet/info.parquet' (FORMAT PARQUET, compression zstd);
+          COPY (SELECT * FROM read_csv_auto('s3://bioc-builddb-mirror/buildResults/*propagation_status.csv.gz')) TO 's3://bioc-builddb-mirror/parquet/propagation_status.parquet' (FORMAT PARQUET, compression zstd);
+          COPY (SELECT * FROM read_csv_auto('s3://bioc-builddb-mirror/buildResults/*build_summary.csv.gz')) TO 's3://bioc-builddb-mirror/parquet/build_summary.parquet' (FORMAT PARQUET, compression zstd);"
