@@ -83,3 +83,15 @@ jobs:
         
       - name: Rclone copy results to cloud storage
         run: 'rclone --config rclone.conf copy report_dir/ r2:bioconductor/checkResults/'
+
+      - name: Setup DuckDB
+        uses: opt-nc/setup-duckdb-action@v1.2.0
+        with:
+          version: v1.4.3
+
+      - name: parquet using duckdb
+        run: |
+          duckdb -c "INSTALL httpfs; LOAD httpfs;"
+          duckdb -c "COPY (SELECT * FROM read_csv_auto('s3://bioc-builddb-mirror/buildResults/info.csv.gz')) TO 'report_dir/parquet/info.parquet' (FORMAT PARQUET, compression zstd);"
+          duckdb -c "COPY (SELECT * FROM read_csv_auto('s3://bioc-builddb-mirror/buildResults/propagation_status.csv.gz')) TO 'report_dir/parquet/propagation_status.parquet' (FORMAT PARQUET, compression zstd);"
+          duckdb -c "COPY (SELECT * FROM read_csv_auto('s3://bioc-builddb-mirror/buildResults/build_summary.csv.gz')) TO 'report_dir/parquet/build_summary.parquet' (FORMAT PARQUET, compression zstd);"
