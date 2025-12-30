@@ -83,7 +83,8 @@ reports_last_mod_table <- function() {
 #' @examples
 #' localize_report_tgz("https://bioconductor.org/checkResults/3.14/bioc-LATEST/report.tgz")
 #'
-#'
+#' @importFrom utils download.file
+#' 
 #' @export
 localize_report_tgz <- function(url, local_dir = tempdir()) {
   download.file(url, temp_file <- tempfile())
@@ -113,6 +114,8 @@ localize_report_tgz <- function(url, local_dir = tempdir()) {
 #'
 #' head(list.files(report_dir, recursive = TRUE))
 #'
+#' @importFrom utils untar head
+#' 
 #' @export
 untar_report_tgz <- function(local_report_tgz, local_dir = tempdir()) {
   md5 = tools::md5sum(local_report_tgz)

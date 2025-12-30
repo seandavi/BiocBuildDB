@@ -1,12 +1,16 @@
 Package: BiocBuildDB
 Type: Package
 Title: Functions to maintain a bioconductor build report database
-Version: 0.1.1
+Version: 0.1.2
 Description: Build and maintain a bioc build database.
-Imports: clock, lubridate, dplyr, readr, stringr, rvest
+Imports: clock, lubridate, dplyr, readr, stringr, rvest, httr2, tibble, arrow
 License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.0
-Authors@R: 
-    person("Sean", "Davis", role = c("aut","cre"), email = 'seandavi@gmail.com')
+RoxygenNote: 7.3.3
+Authors@R: c(
+    person("Sean", "Davis", role = c("aut","cre"), email = 'seandavi@gmail.com'),
+    person("Lori", "Shepherd", role = c("aut"), email = "lori.shepherd@roswellpark.org"))    
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
