@@ -30,9 +30,12 @@ get_all_bbs_tables()
 # Now that all are downloaded. Retrieve cached build_summary tibble
 build_summary <- get_bbs_table("build_summary")
 
+library(stringr)
+library(dplyr)
 # find the times the package BiocFileCache failed on linux nebbiolo builders
-build_summary |> filter(package == "BiocFileCache", str_starts(node, "nebbiolo"), status == "ERROR")
-
+\dontrun{
+build_summary |> filter(package == "BiocFileCache", status \%in\% c("TIMEOUT", "ERROR"), str_starts(node, "nebbiolo")) 
+}
 }
 \seealso{
 get_bbs_table

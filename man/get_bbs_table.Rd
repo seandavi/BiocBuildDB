@@ -35,6 +35,7 @@ propagated to the community.
 info <- get_bbs_table("info")
 info
 
+library(dplyr)
 # all the package Lori Shepherd maintains
 info |> filter(Maintainer == "Lori Shepherd") |> distinct(Package)
 

@@ -49,7 +49,8 @@
 #' @examples
 #' info <- get_bbs_table("info")
 #' info
-#' 
+#'
+#' library(dplyr)
 #' # all the package Lori Shepherd maintains
 #' info |> filter(Maintainer == "Lori Shepherd") |> distinct(Package)
 #'
@@ -113,10 +114,13 @@ get_bbs_table <- function(tblname=c("build_summary", "info",
 #'
 #' # Now that all are downloaded. Retrieve cached build_summary tibble
 #' build_summary <- get_bbs_table("build_summary")
-#'
-#' # find the times the package BiocFileCache failed on linux nebbiolo builders
-#' build_summary |> filter(package == "BiocFileCache", str_starts(node, "nebbiolo"), status == "ERROR")
 #' 
+#' library(stringr)
+#' library(dplyr)
+#' # find the times the package BiocFileCache failed on linux nebbiolo builders
+#' \dontrun{
+#' build_summary |> filter(package == "BiocFileCache", status %in% c("TIMEOUT", "ERROR"), str_starts(node, "nebbiolo")) 
+#' }
 #' @export 
 get_all_bbs_tables <- function(assign_to_global = FALSE) {
 
