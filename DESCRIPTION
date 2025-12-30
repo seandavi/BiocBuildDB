@@ -1,7 +1,7 @@
 Package: BiocBuildDB
 Type: Package
 Title: Functions to maintain a bioconductor build report database
-Version: 0.1.2
+Version: 0.1.3
 Description: Build and maintain a bioc build database.
 Imports: clock, lubridate, dplyr, readr, stringr, rvest, httr2, tibble, arrow
 License: Apache License (>= 2)
