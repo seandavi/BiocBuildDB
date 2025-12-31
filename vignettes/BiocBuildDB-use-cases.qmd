@@ -339,7 +339,7 @@ monthly_builds <- build_summary |>
   mutate(month_date = as.Date(paste0(month, "-01")))
 
 ggplot(monthly_builds, aes(x = month_date, y = n)) +
-  geom_line(color = "steelblue", size = 1) +
+  geom_line(color = "steelblue", linewidth = 1) +
   geom_point(color = "steelblue") +
   labs(
     title = "Build Activity Over Time",
@@ -361,7 +361,7 @@ monthly_errors <- build_summary |>
   mutate(month_date = as.Date(paste0(month, "-01")))
 
 ggplot(monthly_errors, aes(x = month_date, y = error_rate)) +
-  geom_line(color = "red", size = 1) +
+  geom_line(color = "red", linewidth = 1) +
   geom_point(color = "red") +
   labs(
     title = "Build Error Rate Over Time",
