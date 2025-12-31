@@ -13,6 +13,12 @@ Authors@R: c(
     person("Sean", "Davis", role = c("aut","cre"), email = 'seandavi@gmail.com'),
     person("Lori", "Shepherd", role = c("aut"), email = "lori.shepherd@roswellpark.org"))    
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    quarto,
+    ggplot2,
+    tidyr
 Config/testthat/edition: 3
+VignetteBuilder: knitr, quarto
 URL: https://seandavi.github.io/BiocBuildDB/
