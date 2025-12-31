@@ -24,5 +24,4 @@ saved to the `local_dir`.
 \examples{
 localize_report_tgz("https://bioconductor.org/checkResults/3.14/bioc-LATEST/report.tgz")
 
-
 }
