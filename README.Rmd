@@ -39,7 +39,16 @@ You can install the development version of BiocBuildDB from [GitHub](https://git
 BiocManager("seandavi/BiocBuildDB")
 ```
 
-## Basic usage
+## Basic Usage
+
+
+
+
+## Build report processing
+
+In general, the build report processing is not something that an end user will
+need to pay any attention to. However, the automation and processing scripts
+are also included in the package directory and detailed below.
 
 To process all new build reports (those that changed since the last processing),
 you can use the following code:
@@ -121,6 +130,3 @@ in the example build report.
 hist(as.numeric(summary_df$endedat - summary_df$startedat))
 ```
 
-## TODO
-
-- [ ] Function to create a database from the tables
