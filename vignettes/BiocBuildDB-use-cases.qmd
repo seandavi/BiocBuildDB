@@ -1,0 +1,397 @@
+---
+title: "BiocBuildDB Data Use Cases"
+author: "BiocBuildDB Team"
+format: html
+vignette: >
+  %\VignetteIndexEntry{BiocBuildDB Data Use Cases}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 6,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+# Background
+
+The BiocBuildDB package provides access to years of Bioconductor build system data, representing a comprehensive record of package builds across:
+
+- **Thousands of packages** in the Bioconductor ecosystem
+- **Multiple R versions** spanning several years of development
+- **Multiple platforms** including Linux, macOS, and Windows
+- **Different build stages** (install, build, check)
+
+The Bioconductor build system runs regularly, testing all packages to ensure they meet quality standards and work correctly across different platforms. This dataset captures the results of these builds, including:
+
+- Build status (OK, WARNING, ERROR, TIMEOUT)
+- Package version information
+- Git commit information
+- Maintainer details
+- Propagation status to the community
+
+This vignette demonstrates how to use BiocBuildDB functions to explore and analyze this rich dataset to understand:
+
+- Package build history and stability
+- Platform-specific issues
+- Package growth over time
+- Common failure patterns
+
+# Setup
+
+```{r setup}
+library(BiocBuildDB)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+```
+
+# Accessing BiocBuildDB Data
+
+## Getting All Available Tables
+
+The simplest way to start is to download all available data tables. The `get_all_bbs_tables()` function retrieves all three parquet files containing Bioconductor build data:
+
+```{r get_all_tables, eval=FALSE}
+# Download all available tables
+# This will cache the tables for quick subsequent access
+get_all_bbs_tables()
+```
+
+The function downloads three tables:
+
+1. **build_summary**: Results of each build stage for every package
+2. **info**: Package metadata including version, maintainer, and git information
+3. **propagation_status**: Information about package propagation to the community
+
+## Getting Individual Tables
+
+You can also retrieve individual tables using `get_bbs_table()`:
+
+```{r get_individual_table, eval=FALSE}
+# Get the build summary table
+build_summary <- get_bbs_table("build_summary")
+
+# Get the info table
+info <- get_bbs_table("info")
+
+# Get the propagation status table
+propagation_status <- get_bbs_table("propagation_status")
+```
+
+Once downloaded, subsequent calls to these functions will use cached data, making analysis much faster.
+
+# Package-Specific Queries
+
+## Package Release Information
+
+The `get_package_release_info()` function retrieves version and git information for a package across all Bioconductor releases:
+
+```{r package_release_info, eval=FALSE}
+# Get release information for BiocFileCache
+bfc_releases <- get_package_release_info("BiocFileCache")
+bfc_releases
+```
+
+This shows:
+
+- Package versions across different Bioconductor releases
+- Git branches (devel, RELEASE_3_22, etc.)
+- Git commit hashes
+- Last commit dates
+
+This is useful for tracking when a package was updated in different Bioconductor releases.
+
+## Package Error Counts
+
+The `package_error_count()` function provides statistics on how often a package has failed during builds:
+
+```{r package_error_count, eval=FALSE}
+# Get error counts for BiocFileCache
+bfc_errors <- package_error_count("BiocFileCache")
+bfc_errors
+
+# Filter to a specific branch
+bfc_errors_release <- package_error_count("BiocFileCache", branch = "RELEASE_3_22")
+bfc_errors_release
+
+# Filter to a specific builder
+bfc_errors_builder <- package_error_count("BiocFileCache", 
+                                          builder = "nebbiolo2", 
+                                          branch = "RELEASE_3_22")
+bfc_errors_builder
+```
+
+This returns:
+
+- Node (builder machine name)
+- Package version
+- Build stage (install, build, check)
+- Total number of runs
+- Total number of errors
+- Git branch
+
+For the devel branch, you can filter to the most recent version:
+
+```{r filter_devel_errors, eval=FALSE}
+# Get devel errors
+dev_errors <- package_error_count("BiocFileCache", branch = "devel")
+
+# Filter to current devel version
+dev_errors |> filter(version == max(version))
+```
+
+# Exploratory Data Analysis
+
+## Package Growth Over Time
+
+Let's explore how the number of Bioconductor packages has grown over time:
+
+```{r package_growth, eval=FALSE}
+# Get info table
+info <- get_bbs_table("info")
+
+# Count unique packages by branch
+package_counts <- info |>
+  group_by(git_branch) |>
+  summarise(
+    n_packages = n_distinct(Package),
+    .groups = "drop"
+  ) |>
+  arrange(desc(n_packages))
+
+# Display the counts
+package_counts
+
+# Visualize package counts by branch
+ggplot(package_counts, aes(x = reorder(git_branch, n_packages), y = n_packages)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(
+    title = "Number of Packages by Bioconductor Branch",
+    x = "Branch",
+    y = "Number of Packages"
+  ) +
+  theme_minimal()
+```
+
+## Build Status Distribution
+
+Understanding the distribution of build statuses helps identify overall system health:
+
+```{r build_status, eval=FALSE}
+# Get build summary table
+build_summary <- get_bbs_table("build_summary")
+
+# Count build statuses
+status_counts <- build_summary |>
+  count(status) |>
+  arrange(desc(n))
+
+status_counts
+
+# Visualize status distribution
+ggplot(status_counts, aes(x = reorder(status, n), y = n)) +
+  geom_col(aes(fill = status)) +
+  scale_fill_manual(values = c(
+    "OK" = "green3",
+    "WARNING" = "orange",
+    "ERROR" = "red",
+    "TIMEOUT" = "darkred"
+  )) +
+  coord_flip() +
+  labs(
+    title = "Distribution of Build Statuses",
+    x = "Status",
+    y = "Count"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## Platform-Specific Analysis
+
+Different platforms may have different build characteristics:
+
+```{r platform_analysis, eval=FALSE}
+# Analyze build status by platform (node)
+platform_status <- build_summary |>
+  group_by(node, status) |>
+  summarise(count = n(), .groups = "drop") |>
+  group_by(node) |>
+  mutate(
+    total = sum(count),
+    percentage = count / total * 100
+  ) |>
+  ungroup()
+
+# Show error rates by platform
+error_rates <- platform_status |>
+  filter(status %in% c("ERROR", "TIMEOUT")) |>
+  group_by(node) |>
+  summarise(
+    error_count = sum(count),
+    total = first(total),
+    error_rate = sum(percentage),
+    .groups = "drop"
+  ) |>
+  arrange(desc(error_rate))
+
+head(error_rates, 10)
+```
+
+## Build Stage Analysis
+
+Understanding which build stage most often fails:
+
+```{r stage_analysis, eval=FALSE}
+# Analyze failures by stage
+stage_failures <- build_summary |>
+  filter(status %in% c("ERROR", "TIMEOUT")) |>
+  count(stage, status) |>
+  arrange(desc(n))
+
+stage_failures
+
+# Visualize
+ggplot(stage_failures, aes(x = stage, y = n, fill = status)) +
+  geom_col() +
+  scale_fill_manual(values = c("ERROR" = "red", "TIMEOUT" = "darkred")) +
+  labs(
+    title = "Build Failures by Stage",
+    x = "Build Stage",
+    y = "Number of Failures",
+    fill = "Status"
+  ) +
+  theme_minimal()
+```
+
+## Most Problematic Packages
+
+Identify packages with the highest error rates:
+
+```{r problematic_packages, eval=FALSE}
+# Find packages with most errors
+package_errors <- build_summary |>
+  filter(status %in% c("ERROR", "TIMEOUT")) |>
+  count(package, status) |>
+  group_by(package) |>
+  summarise(
+    total_errors = sum(n),
+    .groups = "drop"
+  ) |>
+  arrange(desc(total_errors))
+
+# Top 10 packages with most errors
+head(package_errors, 10)
+```
+
+## Maintainer Analysis
+
+Analyze package maintenance patterns:
+
+```{r maintainer_analysis, eval=FALSE}
+# Get unique packages per maintainer
+maintainer_packages <- info |>
+  group_by(Maintainer) |>
+  summarise(
+    n_packages = n_distinct(Package),
+    packages = paste(unique(Package), collapse = ", "),
+    .groups = "drop"
+  ) |>
+  arrange(desc(n_packages))
+
+# Top maintainers by number of packages
+head(maintainer_packages, 10)
+
+# Distribution of packages per maintainer
+ggplot(maintainer_packages, aes(x = n_packages)) +
+  geom_histogram(binwidth = 1, fill = "steelblue", color = "white") +
+  labs(
+    title = "Distribution of Packages per Maintainer",
+    x = "Number of Packages",
+    y = "Number of Maintainers"
+  ) +
+  theme_minimal()
+```
+
+## Temporal Analysis
+
+Analyze build patterns over time:
+
+```{r temporal_analysis, eval=FALSE}
+# Analyze build patterns over time
+build_summary <- build_summary |>
+  mutate(
+    date = as.Date(startedat),
+    month = format(startedat, "%Y-%m")
+  )
+
+# Build activity by month
+monthly_builds <- build_summary |>
+  count(month) |>
+  mutate(month_date = as.Date(paste0(month, "-01")))
+
+ggplot(monthly_builds, aes(x = month_date, y = n)) +
+  geom_line(color = "steelblue", size = 1) +
+  geom_point(color = "steelblue") +
+  labs(
+    title = "Build Activity Over Time",
+    x = "Month",
+    y = "Number of Builds"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Error rate over time
+monthly_errors <- build_summary |>
+  group_by(month) |>
+  summarise(
+    total = n(),
+    errors = sum(status %in% c("ERROR", "TIMEOUT")),
+    error_rate = errors / total * 100,
+    .groups = "drop"
+  ) |>
+  mutate(month_date = as.Date(paste0(month, "-01")))
+
+ggplot(monthly_errors, aes(x = month_date, y = error_rate)) +
+  geom_line(color = "red", size = 1) +
+  geom_point(color = "red") +
+  labs(
+    title = "Build Error Rate Over Time",
+    x = "Month",
+    y = "Error Rate (%)"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+# Conclusion
+
+The BiocBuildDB package provides powerful tools for analyzing Bioconductor build system data. This vignette demonstrated:
+
+1. **Data Access**: Using `get_bbs_table()` and `get_all_bbs_tables()` to retrieve build data
+2. **Package-Specific Queries**: Using `get_package_release_info()` and `package_error_count()` to analyze individual packages
+3. **Exploratory Analysis**: Examining package growth, build statuses, platform differences, and temporal patterns
+
+This dataset can help package developers, maintainers, and the Bioconductor community to:
+
+- Monitor package build health
+- Identify platform-specific issues
+- Track package evolution over time
+- Understand common failure patterns
+- Improve package quality and reliability
+
+For more information about specific functions, see their documentation with `?function_name`.
+
+# Session Information
+
+```{r session_info}
+sessionInfo()
+```
