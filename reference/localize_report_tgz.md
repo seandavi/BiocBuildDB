@@ -29,5 +29,5 @@ A character(1) with the path to the localized report.tgz file.
 
 ``` r
 localize_report_tgz("https://bioconductor.org/checkResults/3.14/bioc-LATEST/report.tgz")
-#> [1] "/tmp/Rtmp8u5JrJ/b0e50af261966e090388524f021bb139-report.tgz"
+#> [1] "/tmp/RtmpINc8Ul/b0e50af261966e090388524f021bb139-report.tgz"
 ```
