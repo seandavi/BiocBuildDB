@@ -29,7 +29,7 @@ get_package_release_info <- function(packagename){
     if(packagename %in% infoTbl$Package){
         infoTbl |>
             filter(Package == packagename) |>
-            group_by(Package, git_branch) |>
+            group_by(git_branch) |>
             slice_max(order_by = git_last_commit_date, n = 1, with_ties = FALSE) |>
             ungroup() |>
             select(Package, Version, git_branch, git_last_commit, git_last_commit_date)
@@ -92,7 +92,7 @@ get_package_build_results <- function(packagename, branch="devel"){
 
     infoTbl <- suppressMessages(get_bbs_table("info"))
     
-    if(!(branch %in% infoTbl$git_branch)){
+    if(!(branch %in% infoTbl$git_branch[infoTbl$Package == packagename])){
         message(sprintf("Branch: '%s' Not Found.\n  Please check spelling and capitalization",
                         branch))
         return(NULL)
