@@ -58,7 +58,7 @@ library(tidyr)
 
 The simplest way to start is to download all available data tables. The `get_all_bbs_tables()` function retrieves all three parquet files containing Bioconductor build data:
 
-```{r get_all_tables, eval=FALSE}
+```{r get_all_tables}
 # Download all available tables
 # This will cache the tables for quick subsequent access
 get_all_bbs_tables()
@@ -74,7 +74,7 @@ The function downloads three tables:
 
 You can also retrieve individual tables using `get_bbs_table()`:
 
-```{r get_individual_table, eval=FALSE}
+```{r get_individual_table}
 # Get the build summary table
 build_summary <- get_bbs_table("build_summary")
 
@@ -93,7 +93,7 @@ Once downloaded, subsequent calls to these functions will use cached data, makin
 
 The `get_package_release_info()` function retrieves version and git information for a package across all Bioconductor releases:
 
-```{r package_release_info, eval=FALSE}
+```{r package_release_info}
 # Get release information for BiocFileCache
 bfc_releases <- get_package_release_info("BiocFileCache")
 bfc_releases
@@ -112,7 +112,7 @@ This is useful for tracking when a package was updated in different Bioconductor
 
 The `package_error_count()` function provides statistics on how often a package has failed during builds:
 
-```{r package_error_count, eval=FALSE}
+```{r package_error_count}
 # Get error counts for BiocFileCache
 bfc_errors <- package_error_count("BiocFileCache")
 bfc_errors
@@ -139,7 +139,7 @@ This returns:
 
 For the devel branch, you can filter to the most recent version:
 
-```{r filter_devel_errors, eval=FALSE}
+```{r filter_devel_errors}
 # Get devel errors
 dev_errors <- package_error_count("BiocFileCache", branch = "devel")
 
@@ -153,7 +153,7 @@ dev_errors |> filter(version == max(version))
 
 Let's explore how the number of Bioconductor packages has grown over time:
 
-```{r package_growth, eval=FALSE}
+```{r package_growth}
 # Get info table
 info <- get_bbs_table("info")
 
@@ -185,7 +185,7 @@ ggplot(package_counts, aes(x = reorder(git_branch, n_packages), y = n_packages))
 
 Understanding the distribution of build statuses helps identify overall system health:
 
-```{r build_status, eval=FALSE}
+```{r build_status}
 # Get build summary table
 build_summary <- get_bbs_table("build_summary")
 
@@ -219,7 +219,7 @@ ggplot(status_counts, aes(x = reorder(status, n), y = n)) +
 
 Different platforms may have different build characteristics:
 
-```{r platform_analysis, eval=FALSE}
+```{r platform_analysis}
 # Analyze build status by platform (node)
 platform_status <- build_summary |>
   group_by(node, status) |>
@@ -250,7 +250,7 @@ head(error_rates, 10)
 
 Understanding which build stage most often fails:
 
-```{r stage_analysis, eval=FALSE}
+```{r stage_analysis}
 # Analyze failures by stage
 stage_failures <- build_summary |>
   filter(status %in% c("ERROR", "TIMEOUT")) |>
@@ -276,7 +276,7 @@ ggplot(stage_failures, aes(x = stage, y = n, fill = status)) +
 
 Identify packages with the highest error rates:
 
-```{r problematic_packages, eval=FALSE}
+```{r problematic_packages}
 # Find packages with most errors
 package_errors <- build_summary |>
   filter(status %in% c("ERROR", "TIMEOUT")) |>
@@ -296,7 +296,7 @@ head(package_errors, 10)
 
 Analyze package maintenance patterns:
 
-```{r maintainer_analysis, eval=FALSE}
+```{r maintainer_analysis}
 # Get unique packages per maintainer
 maintainer_packages <- info |>
   group_by(Maintainer) |>
@@ -325,7 +325,7 @@ ggplot(maintainer_packages, aes(x = n_packages)) +
 
 Analyze build patterns over time:
 
-```{r temporal_analysis, eval=FALSE}
+```{r temporal_analysis}
 # Analyze build patterns over time
 build_summary <- build_summary |>
   mutate(
@@ -390,8 +390,3 @@ This dataset can help package developers, maintainers, and the Bioconductor comm
 
 For more information about specific functions, see their documentation with `?function_name`.
 
-# Session Information
-
-```{r session_info}
-sessionInfo()
-```
