@@ -3,12 +3,12 @@
 on:
   schedule: 
     - cron: "30 23 * * *"
-  push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
-  release:
-    types: [published]
+  # push:
+  #   branches: [main, master]
+  # pull_request:
+  #   branches: [main, master]
+  # release:
+  #   types: [published]
   workflow_dispatch:
 
 name: process_new_reports
