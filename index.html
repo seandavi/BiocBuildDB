@@ -64,10 +64,60 @@
 </h1></div>
 <p>BiocBuildDB is an R package that provides tools for managing and querying a database of Bioconductor build reports. These reports contain information about the build status of Bioconductor packages across different platforms and R versions.</p>
 <div class="section level2">
+<h2 id="data-flow">Data flow<a class="anchor" aria-label="anchor" href="#data-flow"></a>
+</h2>
+<p>Each day, the Bioconductor build reports are processed to generate structured tables of build results. These tables are stacked to generate a longitudinal record of build results available as parquet files. The data flow for the entire process is outlined in the diagram below.</p>
+<pre class="mermaid"><code>flowchart TD
+    %% =========================
+    %% Phase A: Daily extraction
+    %% =========================
+    A[Bioconductor&lt;br/&gt;Daily Build Reports]
+        --&gt;|daily| B[Parse &amp; Normalize&lt;br/&gt;Build Metadata]
+
+    B --&gt;|md5 hashed&lt;br/&gt;by build report| C1[info.csv]
+    B --&gt;|md5 hashed&lt;br/&gt;by build report| C2[build_summary.csv]
+    B --&gt;|md5 hashed&lt;br/&gt;by build report| C3[propagation_status.csv]
+
+    %% =========================
+    %% Phase B: Longitudinal stacking
+    %% =========================
+    C1 --&gt;|append new report| D1[info.parquet&lt;br/&gt;partitioned by date]
+    C2 --&gt;|append new report| D2[build_summary.parquet&lt;br/&gt;partitioned by date]
+    C3 --&gt;|append new report| D3[propagation_status.parquet&lt;br/&gt;partitioned by date]
+
+    %% =========================
+    %% Storage layer
+    %% =========================
+    D1 --&gt; E[(Object Storage\nS3 / GCS)]
+    D2 --&gt; E
+    D3 --&gt; E
+
+    %% =========================
+    %% Storage layer
+    %% =========================
+    E --&gt;|Usage| U[BiocBuildDB R Package]
+    E --&gt;|Usage| DASH[Third party dashboards]
+    E --&gt;|Usage| ANALYSIS[Analytics]
+
+
+    %% =========================
+    %% Styling
+    %% =========================
+    classDef source fill:#eef,stroke:#446;
+    classDef daily fill:#efe,stroke:#484;
+    classDef parquet fill:#ffe,stroke:#aa4;
+    classDef storage fill:#fdf6e3,stroke:#b58900;
+
+    class A source;
+    class C1,C2,C3 daily;
+    class D1,D2,D3 parquet;
+    class E storage;</code></pre>
+</div>
+<div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>You can install the development version of BiocBuildDB from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("BiocManager")</span></span>
 <span><span class="fu">BiocManager</span><span class="op">(</span><span class="st">"seandavi/BiocBuildDB"</span><span class="op">)</span></span></code></pre></div>
 </div>
