@@ -1,6 +1,8 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://seandavi.github.io/BiocBuildDB/404.html</loc></url>
 <url><loc>https://seandavi.github.io/BiocBuildDB/LICENSE.html</loc></url>
+<url><loc>https://seandavi.github.io/BiocBuildDB/articles/BiocBuildDB-use-cases.html</loc></url>
+<url><loc>https://seandavi.github.io/BiocBuildDB/articles/index.html</loc></url>
 <url><loc>https://seandavi.github.io/BiocBuildDB/authors.html</loc></url>
 <url><loc>https://seandavi.github.io/BiocBuildDB/index.html</loc></url>
 <url><loc>https://seandavi.github.io/BiocBuildDB/reference/bbs_cache.html</loc></url>

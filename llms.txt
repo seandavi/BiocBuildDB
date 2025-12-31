@@ -192,3 +192,9 @@ Function to create a database from the tables
 - [`write_tables_to_files()`](https://seandavi.github.io/BiocBuildDB/reference/write_tables_to_files.md)
   : Write tables to files based on md5 naming
 
+# Articles
+
+### All vignettes
+
+- [BiocBuildDB Data Use
+  Cases](https://seandavi.github.io/BiocBuildDB/articles/BiocBuildDB-use-cases.md):

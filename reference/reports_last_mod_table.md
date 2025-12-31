@@ -24,7 +24,7 @@ res
 #> # A tibble: 119 × 2
 #>    url                                                       last_modified      
 #>    <chr>                                                     <dttm>             
-#>  1 https://bioconductor.org/checkResults/3.23/bioc-LATEST/r… 2025-12-30 16:36:40
+#>  1 https://bioconductor.org/checkResults/3.23/bioc-LATEST/r… 2025-12-31 16:36:06
 #>  2 https://bioconductor.org/checkResults/3.23/bioc-gpu-LATE… 2025-12-31 12:45:04
 #>  3 https://bioconductor.org/checkResults/3.23/data-annotati… 2025-12-31 12:00:08
 #>  4 https://bioconductor.org/checkResults/3.23/data-experime… 2025-12-30 20:01:36
