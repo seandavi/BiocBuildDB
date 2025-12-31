@@ -89,10 +89,16 @@ query and analyze Bioconductor build reports.
   : Retrieve all available Bioconductor build system parquet files
 - [`get_bbs_table()`](https://seandavi.github.io/BiocBuildDB/reference/get_bbs_table.md)
   : Retrieve a remotely read parquet file of Bioconductor build data
+- [`get_build_report()`](https://seandavi.github.io/BiocBuildDB/reference/get_build_report.md)
+  : Get a report for any given day from the Bioconductor Build System
 - [`get_build_summary_table()`](https://seandavi.github.io/BiocBuildDB/reference/get_build_summary_table.md)
   : Extract build_summary table from an extracted report tarball
+- [`get_failing_packages()`](https://seandavi.github.io/BiocBuildDB/reference/get_failing_packages.md)
+  : Get list of failing packages for the most recent build
 - [`get_info_table()`](https://seandavi.github.io/BiocBuildDB/reference/get_info_table.md)
   : Extract info table from an extracted report tarball
+- [`get_latest_branches()`](https://seandavi.github.io/BiocBuildDB/reference/get_latest_branches.md)
+  : Get currently active Bioconductor git branches
 - [`get_package_build_results()`](https://seandavi.github.io/BiocBuildDB/reference/get_package_build_results.md)
   : Get the most recent build result data for a given package on a given
   branch
