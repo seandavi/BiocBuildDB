@@ -342,3 +342,204 @@ package_failures_over_time <- function(packagename, builder, failure_cluster_hou
     
     return(episodeSummary)
 }
+
+
+#' @title Get currently active Bioconductor git branches
+#'
+#' @description Get currently active Bioconductor git branches
+#'
+#' @details Get currently active Bioconductor git branches
+#'
+#' @param infoTbl downloaded paraquet info table retrieved from
+#' get_bbs_table('info') that includes git_branch information.
+#'
+#' @return character(2) 'devel' and RELEASE_X_Y value eqivalent to current
+#' release.
+#'
+#' @seealso get_bbs_table
+#'
+#' @aliases get_latest_branches
+#'
+#' @examples
+#' get_latest_branches()
+#' 
+#' @export
+get_latest_branches <- function(infoTbl=NULL) {
+
+    if(is.null(infoTbl)) infoTbl <- suppressMessages(get_bbs_table("info"))
+
+    stopifnot("git_branch" %in% names(infoTbl), inherits(infoTbl, "data.frame"))
+    
+    release_branches <- grep("^RELEASE", infoTbl$git_branch, value = TRUE)
+    if (length(release_branches) > 0) {
+        release_versions <- as.numeric(gsub("RELEASE_(\\d+)_(\\d+)", "\\1\\2", release_branches))
+        latest_release <- release_branches[which.max(release_versions)]
+    } else {
+        latest_release <- character(0)
+    }
+    
+    c("devel", latest_release)
+}
+
+
+#' @title Get a report for any given day from the Bioconductor Build System
+#'
+#' @description Get a report for any given day from the Bioconductor Build
+#' System, optionally specifying a git branch or build machine name.
+#'
+#' @details Utilizes data from the build_summary and info parquet files to
+#' retrieve a reconstructed Bioconductor Build Report for any given
+#' day. Optionally a given build machine name or Bioconductor branch may be
+#' specified for further filtering. By default it will use today's date and
+#' retrieve both devel and current release for all Bioconductor build machines.
+#' NOTE: Traditionally Bioconductor splits builds into software,
+#' data-experiment, annotation, workflow, books; this distinction is not
+#' available in these functions and packages regardless of 'type' will be
+#' included.
+#' The returned tibble includes: package name, build node, build stage, package
+#' version number, status of stage, when the run started and ended, the command
+#' the builder ran, branch of bioconductor and relevant git commit information. 
+#' 
+#' @param build_date Date of report to retrieve (eg. '2025-12-19')
+#' @param branch a bioconductor branch (eg. 'devel', 'RELEASE_3_22')
+#' @param builder name of a valid Bioconductor build machine (ie 'nebbiolo1')
+#'
+#' @return tibble representing a Bioconductor build report for a given day
+#'
+#' @aliases get_build_report
+#'
+#' @seealso get_bbs_table
+#' 
+#' @author Lori Shepherd
+#'
+#' @examples
+#' get_build_report("2025-12-29", branch="RELEASE_3_22", builder="nebbiolo2")
+#'
+#' @export
+
+get_build_report <- function(build_date = Sys.Date(), branch = NULL, builder = NULL) {
+
+    stopifnot(inherits(build_date, c("Date", "character")))
+  
+    summaryTbl <- suppressMessages(get_bbs_table("build_summary"))
+    infoTbl <- suppressMessages(get_bbs_table("info"))
+    
+    build_date <- as.Date(build_date)
+    
+    dailyTbl <- summaryTbl |> 
+        filter(as.Date(startedat) == build_date)
+    
+    if (nrow(dailyTbl) == 0) {
+        message("No builds found on this date.")
+        return(NULL)
+    }
+  
+    if (is.null(branch)) {
+        branch_filter <- get_latest_branches(infoTbl)
+    } else {
+        branch_filter <- branch
+    }
+  
+    info_filtered <- infoTbl |> 
+        filter(git_branch %in% branch_filter) |> 
+        group_by(Package, git_branch) |> 
+        slice_max(package_version(Version), n = 1, with_ties = FALSE) |> 
+        ungroup() |> 
+        select(Package, Version, git_branch, git_last_commit, git_last_commit_date)
+  
+    daily_report <- dailyTbl |> 
+        inner_join(info_filtered, by = c("package" = "Package", "version" = "Version"))
+  
+    if (!is.null(builder)) {
+        daily_report <- daily_report |> filter(node == builder)
+        if (nrow(daily_report) == 0) {
+            message(sprintf("No builds found for builder '%s' on %s.", builder, build_date))
+            return(NULL)
+        }
+    }
+    stage_levels <- c("install", "buildsrc", "checksrc")
+    
+    daily_report <- daily_report |> 
+        mutate(stage = factor(stage, levels = stage_levels),
+               version = package_version(version)) |> 
+        arrange(git_branch, package, version, node, stage)
+    
+    daily_report
+}
+
+
+#' @title Get list of failing packages for the most recent build
+#'
+#' @description Get a list of failing (ERROR/TIMEOUT) packages for any given
+#' branch and builder
+#'
+#' @details Utilizes data from the build_summary and info parquet files to list
+#' all packages failing (ERROR/TIMEOUT) in any stage of the process. Optionally
+#' a Bioconductor git branch can be specified and by default will do both the
+#' current devel and release. The report can be further filtered by optionally
+#' specifying a build machine name.
+#' The returned tibble includes: git branch, package name, package version
+#' number, build machine node, collapsed column of stages and statuses.
+#'
+#' @param branch a bioconductor branch (eg. 'devel', 'RELEASE_3_22')
+#' @param builder name of a valid Bioconductor build machine (ie 'nebbiolo1')
+#'
+#' @return a tibble of failing packages
+#'
+#' @aliases get_failing_packages
+#'
+#' @seealso get_bbs_table
+#'
+#' @author Lori Shepherd
+#'
+#' @examples
+#' get_failing_packages("RELEASE_3_22")
+#' get_failing_packages("RELEASE_3_22", "nebbiolo2")
+#'
+#' @export
+get_failing_packages <- function(branch = NULL, builder = NULL) {
+
+    summaryTbl <- suppressMessages(get_bbs_table("build_summary"))
+    infoTbl <- suppressMessages(get_bbs_table("info"))
+  
+    if (is.null(branch)) {
+        branch_filter <- get_latest_branches(infoTbl)
+    } else {
+        branch_filter <- branch
+    }
+  
+    info_filtered <- infoTbl |> 
+        filter(git_branch %in% branch_filter) |> 
+        group_by(Package, git_branch) |> 
+        slice_max(package_version(Version), n = 1, with_ties = FALSE) |> 
+        ungroup() |> 
+        select(Package, Version, git_branch)
+  
+    failures <- summaryTbl |> 
+        filter(status %in% c("ERROR", "TIMEOUT")) |> 
+        inner_join(info_filtered,
+                   by = c("package" = "Package", "version" = "Version"),
+                   relationship = "many-to-many")
+  
+    if (!is.null(builder)) {
+        failures <- failures |> filter(node %in% builder)
+    }
+  
+    if (nrow(failures) == 0) {
+        message("No failing packages found for the specified branch(es) and node(s).")
+        return(NULL)
+    }
+    
+
+    failures |> 
+        mutate(version = package_version(version)) |>
+        group_by(git_branch, package, version, node) |> 
+        summarise(
+            stages   = paste(sort(unique(stage)), collapse = ", "),
+            statuses = paste(sort(unique(status)), collapse = ", "),
+            .groups  = "drop"
+        ) |> 
+        arrange(git_branch, package, version, node)
+
+
+}
