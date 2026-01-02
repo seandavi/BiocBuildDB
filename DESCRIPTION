@@ -1,7 +1,7 @@
 Package: BiocBuildDB
 Type: Package
 Title: Functions to maintain a bioconductor build report database
-Version: 0.1.4
+Version: 0.1.5
 Description: Build and maintain a bioc build database.
 Depends: R (>= 4.1.0)
 Imports: clock, lubridate, dplyr, readr, stringr, rvest, httr2, tibble, arrow
