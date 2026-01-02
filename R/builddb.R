@@ -81,7 +81,12 @@ reports_last_mod_table <- function() {
 #' @return A character(1) with the path to the localized report.tgz file.
 #'
 #' @examples
-#' localize_report_tgz("https://bioconductor.org/checkResults/3.14/bioc-LATEST/report.tgz")
+#' if (interactive()) {
+#'   local_report_tgz = localize_report_tgz(
+#'     "https://bioconductor.org/checkResults/3.14/bioc-LATEST/report.tgz"
+#'   )
+#'   print(local_report_tgz)
+#' }
 #'
 #' @importFrom utils download.file
 #' 

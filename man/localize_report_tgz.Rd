@@ -22,6 +22,11 @@ a name that is the md5sum of the file, and the file is
 saved to the `local_dir`.
 }
 \examples{
-localize_report_tgz("https://bioconductor.org/checkResults/3.14/bioc-LATEST/report.tgz")
+if (interactive()) {
+  local_report_tgz = localize_report_tgz(
+    "https://bioconductor.org/checkResults/3.14/bioc-LATEST/report.tgz"
+  )
+  print(local_report_tgz)
+}
 
 }
