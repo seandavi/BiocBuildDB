@@ -234,9 +234,9 @@
 <span><span class="co">#&gt; # A tibble: 3 × 6</span></span>
 <span><span class="co">#&gt;   node      version    stage    count_total count_error git_branch  </span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;     &lt;pckg_vrs&gt; &lt;chr&gt;          &lt;int&gt;       &lt;int&gt; &lt;chr&gt;       </span></span>
-<span><span class="co">#&gt; 1 nebbiolo2 3.0.0      buildsrc          27           8 RELEASE_3_22</span></span>
-<span><span class="co">#&gt; 2 nebbiolo2 3.0.0      checksrc          19           6 RELEASE_3_22</span></span>
-<span><span class="co">#&gt; 3 nebbiolo2 3.0.0      install           27           0 RELEASE_3_22</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 nebbiolo2 3.0.0      buildsrc          28           8 RELEASE_3_22</span></span>
+<span><span class="co">#&gt; 2 nebbiolo2 3.0.0      checksrc          20           6 RELEASE_3_22</span></span>
+<span><span class="co">#&gt; 3 nebbiolo2 3.0.0      install           28           0 RELEASE_3_22</span></span></code></pre></div>
 </div>
 <p>This returns:</p>
 <ul>
@@ -258,17 +258,17 @@
 <span><span class="co">#&gt; # A tibble: 11 × 6</span></span>
 <span><span class="co">#&gt;    node      version    stage    count_total count_error git_branch</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;     &lt;pckg_vrs&gt; &lt;chr&gt;          &lt;int&gt;       &lt;int&gt; &lt;chr&gt;     </span></span>
-<span><span class="co">#&gt;  1 kjohnson3 3.1.0      buildbin          29           0 devel     </span></span>
-<span><span class="co">#&gt;  2 kjohnson3 3.1.0      buildsrc          40          11 devel     </span></span>
-<span><span class="co">#&gt;  3 kjohnson3 3.1.0      checksrc          29           0 devel     </span></span>
-<span><span class="co">#&gt;  4 kjohnson3 3.1.0      install           40           0 devel     </span></span>
+<span><span class="co">#&gt;  1 kjohnson3 3.1.0      buildbin          31           0 devel     </span></span>
+<span><span class="co">#&gt;  2 kjohnson3 3.1.0      buildsrc          42          11 devel     </span></span>
+<span><span class="co">#&gt;  3 kjohnson3 3.1.0      checksrc          31           0 devel     </span></span>
+<span><span class="co">#&gt;  4 kjohnson3 3.1.0      install           42           0 devel     </span></span>
 <span><span class="co">#&gt;  5 lconway   3.1.0      buildbin           9           0 devel     </span></span>
 <span><span class="co">#&gt;  6 lconway   3.1.0      buildsrc          11           2 devel     </span></span>
 <span><span class="co">#&gt;  7 lconway   3.1.0      checksrc           9           1 devel     </span></span>
 <span><span class="co">#&gt;  8 lconway   3.1.0      install           11           0 devel     </span></span>
-<span><span class="co">#&gt;  9 nebbiolo1 3.1.0      buildsrc          51          14 devel     </span></span>
-<span><span class="co">#&gt; 10 nebbiolo1 3.1.0      checksrc          37           8 devel     </span></span>
-<span><span class="co">#&gt; 11 nebbiolo1 3.1.0      install           51           0 devel</span></span></code></pre></div>
+<span><span class="co">#&gt;  9 nebbiolo1 3.1.0      buildsrc          53          14 devel     </span></span>
+<span><span class="co">#&gt; 10 nebbiolo1 3.1.0      checksrc          39           8 devel     </span></span>
+<span><span class="co">#&gt; 11 nebbiolo1 3.1.0      install           53           0 devel</span></span></code></pre></div>
 </div>
 </section></section><section class="section level2"><h2 id="exploratory-data-analysis">Exploratory Data Analysis<a class="anchor" aria-label="anchor" href="#exploratory-data-analysis"></a>
 </h2>
@@ -341,10 +341,10 @@
 <span><span class="co">#&gt; # A tibble: 4 × 2</span></span>
 <span><span class="co">#&gt;   status          n</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;       &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 OK       12216633</span></span>
-<span><span class="co">#&gt; 2 WARNINGS   595305</span></span>
-<span><span class="co">#&gt; 3 ERROR      371141</span></span>
-<span><span class="co">#&gt; 4 TIMEOUT     17173</span></span>
+<span><span class="co">#&gt; 1 OK       12261121</span></span>
+<span><span class="co">#&gt; 2 WARNINGS   597591</span></span>
+<span><span class="co">#&gt; 3 ERROR      372722</span></span>
+<span><span class="co">#&gt; 4 TIMEOUT     17250</span></span>
 <span></span>
 <span><span class="co"># Visualize status distribution</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">status_counts</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">status</span>, <span class="va">n</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -403,13 +403,13 @@
 <span><span class="co">#&gt;    node      error_count   total error_rate</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;           &lt;int&gt;   &lt;int&gt;      &lt;dbl&gt;</span></span>
 <span><span class="co">#&gt;  1 riesling1          12      88      13.6 </span></span>
-<span><span class="co">#&gt;  2 kakapo1            62     558      11.1 </span></span>
-<span><span class="co">#&gt;  3 biocgpu           189    1736      10.9 </span></span>
-<span><span class="co">#&gt;  4 amarone           102    1137       8.97</span></span>
-<span><span class="co">#&gt;  5 taishan         53826  911753       5.90</span></span>
+<span><span class="co">#&gt;  2 kakapo1            68     579      11.7 </span></span>
+<span><span class="co">#&gt;  3 biocgpu           195    1784      10.9 </span></span>
+<span><span class="co">#&gt;  4 amarone           108    1158       9.33</span></span>
+<span><span class="co">#&gt;  5 taishan         54147  918331       5.90</span></span>
 <span><span class="co">#&gt;  6 kunpeng2        50358  907145       5.55</span></span>
-<span><span class="co">#&gt;  7 nebbiolo1       50669 1681259       3.01</span></span>
-<span><span class="co">#&gt;  8 kjohnson3       64357 2189528       2.94</span></span>
+<span><span class="co">#&gt;  7 nebbiolo1       51189 1696475       3.02</span></span>
+<span><span class="co">#&gt;  8 kjohnson3       64920 2207571       2.94</span></span>
 <span><span class="co">#&gt;  9 kjohnson2         251    8628       2.91</span></span>
 <span><span class="co">#&gt; 10 palomino3       11216  436957       2.57</span></span></code></pre></div>
 </div>
@@ -428,11 +428,11 @@
 <span><span class="co">#&gt; # A tibble: 8 × 3</span></span>
 <span><span class="co">#&gt;   stage    status       n</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 buildsrc ERROR   196525</span></span>
-<span><span class="co">#&gt; 2 checksrc ERROR   105653</span></span>
-<span><span class="co">#&gt; 3 install  ERROR    68101</span></span>
-<span><span class="co">#&gt; 4 checksrc TIMEOUT   9227</span></span>
-<span><span class="co">#&gt; 5 buildsrc TIMEOUT   7857</span></span>
+<span><span class="co">#&gt; 1 buildsrc ERROR   197331</span></span>
+<span><span class="co">#&gt; 2 checksrc ERROR   106203</span></span>
+<span><span class="co">#&gt; 3 install  ERROR    68326</span></span>
+<span><span class="co">#&gt; 4 checksrc TIMEOUT   9269</span></span>
+<span><span class="co">#&gt; 5 buildsrc TIMEOUT   7892</span></span>
 <span><span class="co">#&gt; 6 buildbin ERROR      862</span></span>
 <span><span class="co">#&gt; 7 buildbin TIMEOUT     57</span></span>
 <span><span class="co">#&gt; 8 install  TIMEOUT     32</span></span>
@@ -476,14 +476,14 @@
 <span><span class="co">#&gt; # A tibble: 10 × 2</span></span>
 <span><span class="co">#&gt;    package    total_errors</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;             &lt;int&gt;</span></span>
-<span><span class="co">#&gt;  1 lapmix             2138</span></span>
-<span><span class="co">#&gt;  2 netZooR            1693</span></span>
+<span><span class="co">#&gt;  1 lapmix             2142</span></span>
+<span><span class="co">#&gt;  2 netZooR            1697</span></span>
 <span><span class="co">#&gt;  3 hypeR              1685</span></span>
-<span><span class="co">#&gt;  4 XNAString          1450</span></span>
-<span><span class="co">#&gt;  5 Repitools          1444</span></span>
-<span><span class="co">#&gt;  6 ChemmineOB         1442</span></span>
-<span><span class="co">#&gt;  7 ccfindR            1422</span></span>
-<span><span class="co">#&gt;  8 gpuMagic           1392</span></span>
+<span><span class="co">#&gt;  4 XNAString          1454</span></span>
+<span><span class="co">#&gt;  5 ChemmineOB         1452</span></span>
+<span><span class="co">#&gt;  6 Repitools          1447</span></span>
+<span><span class="co">#&gt;  7 ccfindR            1426</span></span>
+<span><span class="co">#&gt;  8 gpuMagic           1396</span></span>
 <span><span class="co">#&gt;  9 graper             1388</span></span>
 <span><span class="co">#&gt; 10 gespeR             1375</span></span></code></pre></div>
 </div>

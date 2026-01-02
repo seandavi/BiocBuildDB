@@ -45,7 +45,7 @@ Lori Shepherd
 
 ``` r
 get_failing_packages("RELEASE_3_22")
-#> # A tibble: 1,978 × 6
+#> # A tibble: 1,984 × 6
 #>    git_branch   package  version    node      stages            statuses
 #>    <chr>        <chr>    <pckg_vrs> <chr>     <chr>             <chr>   
 #>  1 RELEASE_3_22 ACME     2.66.0     taishan   buildsrc, install ERROR   
@@ -58,9 +58,9 @@ get_failing_packages("RELEASE_3_22")
 #>  8 RELEASE_3_22 ANF      1.32.0     taishan   buildsrc          TIMEOUT 
 #>  9 RELEASE_3_22 APAlyzer 1.24.0     kjohnson1 checksrc          ERROR   
 #> 10 RELEASE_3_22 APAlyzer 1.24.0     kjohnson3 checksrc          ERROR   
-#> # ℹ 1,968 more rows
+#> # ℹ 1,974 more rows
 get_failing_packages("RELEASE_3_22", "nebbiolo2")
-#> # A tibble: 439 × 6
+#> # A tibble: 444 × 6
 #>    git_branch   package                  version    node      stages    statuses
 #>    <chr>        <chr>                    <pckg_vrs> <chr>     <chr>     <chr>   
 #>  1 RELEASE_3_22 APAlyzer                 1.24.0     nebbiolo2 checksrc  ERROR   
@@ -73,5 +73,5 @@ get_failing_packages("RELEASE_3_22", "nebbiolo2")
 #>  8 RELEASE_3_22 BPRMeth                  1.36.0     nebbiolo2 checksrc  ERROR   
 #>  9 RELEASE_3_22 BUSpaRse                 1.24.0     nebbiolo2 buildsrc… ERROR, …
 #> 10 RELEASE_3_22 BayesSpace               1.20.0     nebbiolo2 buildsrc… ERROR   
-#> # ℹ 429 more rows
+#> # ℹ 434 more rows
 ```

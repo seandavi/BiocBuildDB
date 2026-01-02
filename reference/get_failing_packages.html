@@ -98,7 +98,7 @@ number, build machine node, collapsed column of stages and statuses.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_failing_packages</span><span class="op">(</span><span class="st">"RELEASE_3_22"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1,978 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1,984 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    git_branch   package  version    node      stages            statuses</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;pckg_vrs&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> RELEASE_3_22 ACME     2.66.0     taishan   buildsrc, install ERROR   </span>
@@ -111,9 +111,9 @@ number, build machine node, collapsed column of stages and statuses.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> RELEASE_3_22 ANF      1.32.0     taishan   buildsrc          TIMEOUT </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> RELEASE_3_22 APAlyzer 1.24.0     kjohnson1 checksrc          ERROR   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> RELEASE_3_22 APAlyzer 1.24.0     kjohnson3 checksrc          ERROR   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1,968 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1,974 more rows</span></span>
 <span class="r-in"><span><span class="fu">get_failing_packages</span><span class="op">(</span><span class="st">"RELEASE_3_22"</span>, <span class="st">"nebbiolo2"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 439 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 444 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    git_branch   package                  version    node      stages    statuses</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;pckg_vrs&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> RELEASE_3_22 APAlyzer                 1.24.0     nebbiolo2 checksrc  ERROR   </span>
@@ -126,7 +126,7 @@ number, build machine node, collapsed column of stages and statuses.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> RELEASE_3_22 BPRMeth                  1.36.0     nebbiolo2 checksrc  ERROR   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> RELEASE_3_22 BUSpaRse                 1.24.0     nebbiolo2 buildsrc… ERROR, …</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> RELEASE_3_22 BayesSpace               1.20.0     nebbiolo2 buildsrc… ERROR   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 429 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 434 more rows</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

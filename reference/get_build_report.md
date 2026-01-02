@@ -54,20 +54,20 @@ Lori Shepherd
 
 ``` r
 get_build_report("2025-12-29", branch="RELEASE_3_22", builder="nebbiolo2")
-#> # A tibble: 31 × 12
-#>    package    node  stage version status startedat           endedat            
-#>    <chr>      <chr> <fct> <pckg_> <chr>  <dttm>              <dttm>             
-#>  1 BiocBookD… nebb… inst… 1.8.0   OK     2025-12-29 11:45:16 2025-12-29 11:45:19
-#>  2 BiocBookD… nebb… buil… 1.8.0   OK     2025-12-29 11:47:25 2025-12-29 11:48:26
-#>  3 BiocBookD… nebb… chec… 1.8.0   OK     2025-12-29 13:21:17 2025-12-29 13:21:18
-#>  4 OHCA       nebb… inst… 1.6.0   OK     2025-12-29 11:45:19 2025-12-29 11:45:20
-#>  5 OHCA       nebb… buil… 1.6.0   OK     2025-12-29 11:47:25 2025-12-29 12:17:07
-#>  6 OHCA       nebb… chec… 1.6.0   OK     2025-12-29 13:21:17 2025-12-29 13:21:18
-#>  7 OSCA       nebb… inst… 1.20.0  OK     2025-12-29 11:45:19 2025-12-29 11:45:21
-#>  8 OSCA       nebb… buil… 1.20.0  OK     2025-12-29 11:47:25 2025-12-29 11:47:40
-#>  9 OSCA       nebb… chec… 1.20.0  OK     2025-12-29 13:21:17 2025-12-29 13:21:18
-#> 10 OSCA.adva… nebb… inst… 1.18.1  OK     2025-12-29 11:46:34 2025-12-29 11:47:15
-#> # ℹ 21 more rows
+#> # A tibble: 3,827 × 12
+#>    package node     stage version status startedat           endedat            
+#>    <chr>   <chr>    <fct> <pckg_> <chr>  <dttm>              <dttm>             
+#>  1 ABSSeq  nebbiol… inst… 1.64.0  OK     2025-12-29 20:05:54 2025-12-29 20:06:15
+#>  2 ABSSeq  nebbiol… buil… 1.64.0  OK     2025-12-29 21:11:23 2025-12-29 21:12:29
+#>  3 ABarray nebbiol… inst… 1.78.0  OK     2025-12-29 20:16:38 2025-12-29 20:16:47
+#>  4 ABarray nebbiol… buil… 1.78.0  OK     2025-12-29 21:11:23 2025-12-29 21:11:36
+#>  5 ACE     nebbiol… inst… 1.28.0  OK     2025-12-29 20:18:52 2025-12-29 20:19:11
+#>  6 ACE     nebbiol… buil… 1.28.0  OK     2025-12-29 21:11:23 2025-12-29 21:12:19
+#>  7 ACME    nebbiol… inst… 2.66.0  OK     2025-12-29 20:14:48 2025-12-29 20:14:54
+#>  8 ACME    nebbiol… buil… 2.66.0  OK     2025-12-29 21:11:23 2025-12-29 21:11:44
+#>  9 ADAM    nebbiol… inst… 1.26.0  OK     2025-12-29 20:41:39 2025-12-29 20:42:11
+#> 10 ADAM    nebbiol… buil… 1.26.0  OK     2025-12-29 21:11:23 2025-12-29 21:12:07
+#> # ℹ 3,817 more rows
 #> # ℹ 5 more variables: command <chr>, report_md5 <chr>, git_branch <chr>,
 #> #   git_last_commit <chr>, git_last_commit_date <dttm>
 ```

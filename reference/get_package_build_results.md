@@ -49,17 +49,17 @@ get_package_build_results("BiocFileCache")
 #> # A tibble: 11 × 9
 #>    package       node      stage   version status endedat             git_branch
 #>    <chr>         <chr>     <chr>   <chr>   <chr>  <dttm>              <chr>     
-#>  1 BiocFileCache kjohnson3 buildb… 3.1.0   OK     2025-12-30 04:18:39 devel     
-#>  2 BiocFileCache kjohnson3 builds… 3.1.0   OK     2025-12-29 20:46:05 devel     
-#>  3 BiocFileCache kjohnson3 checks… 3.1.0   OK     2025-12-29 23:40:58 devel     
-#>  4 BiocFileCache kjohnson3 install 3.1.0   OK     2025-12-29 20:05:50 devel     
+#>  1 BiocFileCache kjohnson3 buildb… 3.1.0   OK     2026-01-01 04:20:49 devel     
+#>  2 BiocFileCache kjohnson3 builds… 3.1.0   OK     2025-12-31 20:45:20 devel     
+#>  3 BiocFileCache kjohnson3 checks… 3.1.0   OK     2025-12-31 23:42:10 devel     
+#>  4 BiocFileCache kjohnson3 install 3.1.0   OK     2025-12-31 20:05:19 devel     
 #>  5 BiocFileCache lconway   buildb… 3.1.0   OK     2025-11-28 10:57:17 devel     
 #>  6 BiocFileCache lconway   builds… 3.1.0   OK     2025-11-27 21:14:18 devel     
 #>  7 BiocFileCache lconway   checks… 3.1.0   OK     2025-11-28 01:22:22 devel     
 #>  8 BiocFileCache lconway   install 3.1.0   OK     2025-11-27 20:15:11 devel     
-#>  9 BiocFileCache nebbiolo1 builds… 3.1.0   OK     2025-12-29 21:31:21 devel     
-#> 10 BiocFileCache nebbiolo1 checks… 3.1.0   OK     2025-12-30 02:28:01 devel     
-#> 11 BiocFileCache nebbiolo1 install 3.1.0   OK     2025-12-29 20:11:18 devel     
+#>  9 BiocFileCache nebbiolo1 builds… 3.1.0   OK     2025-12-31 21:28:04 devel     
+#> 10 BiocFileCache nebbiolo1 checks… 3.1.0   OK     2026-01-01 02:27:07 devel     
+#> 11 BiocFileCache nebbiolo1 install 3.1.0   OK     2025-12-31 20:08:47 devel     
 #> # ℹ 2 more variables: git_last_commit <chr>, git_last_commit_date <dttm>
 get_package_build_results("BiocFileCache", branch="RELEASE_3_22")
 #> # A tibble: 22 × 9

@@ -49,7 +49,7 @@ Lori Shepherd
 info <- get_bbs_table("info")
 #> Using cached table 'info'
 info
-#> # A tibble: 1,153,969 × 9
+#> # A tibble: 1,161,894 × 9
 #>    Package Version Maintainer MaintainerEmail git_url git_branch git_last_commit
 #>    <chr>   <chr>   <chr>      <chr>           <chr>   <chr>      <chr>          
 #>  1 adduct… 1.26.0  Josie Hay… jlhayes1982 at… https:… RELEASE_3… 371b0e2        
@@ -62,7 +62,7 @@ info
 #>  8 Affymo… 1.48.0  Zhicheng … zji4 at jhu.edu https:… RELEASE_3… 53202e1        
 #>  9 airway  1.30.0  Michael L… michaelisaiahl… https:… RELEASE_3… a6a39c3        
 #> 10 ALL     1.52.0  Robert Ge… rgentlem at gm… https:… RELEASE_3… 0bc53bb        
-#> # ℹ 1,153,959 more rows
+#> # ℹ 1,161,884 more rows
 #> # ℹ 2 more variables: git_last_commit_date <dttm>, report_md5 <chr>
 
 library(dplyr)

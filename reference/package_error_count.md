@@ -90,9 +90,9 @@ package_error_count("BiocFileCache", builder = "nebbiolo2", branch="RELEASE_3_22
 #> # A tibble: 3 × 6
 #>   node      version    stage    count_total count_error git_branch  
 #>   <chr>     <pckg_vrs> <chr>          <int>       <int> <chr>       
-#> 1 nebbiolo2 3.0.0      buildsrc          27           8 RELEASE_3_22
-#> 2 nebbiolo2 3.0.0      checksrc          19           6 RELEASE_3_22
-#> 3 nebbiolo2 3.0.0      install           27           0 RELEASE_3_22
+#> 1 nebbiolo2 3.0.0      buildsrc          28           8 RELEASE_3_22
+#> 2 nebbiolo2 3.0.0      checksrc          20           6 RELEASE_3_22
+#> 3 nebbiolo2 3.0.0      install           28           0 RELEASE_3_22
 
 library(dplyr)
 ## devel will have more than just current devel
@@ -102,15 +102,15 @@ devErrors |> filter(version == max(version))
 #> # A tibble: 11 × 6
 #>    node      version    stage    count_total count_error git_branch
 #>    <chr>     <pckg_vrs> <chr>          <int>       <int> <chr>     
-#>  1 kjohnson3 3.1.0      buildbin          29           0 devel     
-#>  2 kjohnson3 3.1.0      buildsrc          40          11 devel     
-#>  3 kjohnson3 3.1.0      checksrc          29           0 devel     
-#>  4 kjohnson3 3.1.0      install           40           0 devel     
+#>  1 kjohnson3 3.1.0      buildbin          31           0 devel     
+#>  2 kjohnson3 3.1.0      buildsrc          42          11 devel     
+#>  3 kjohnson3 3.1.0      checksrc          31           0 devel     
+#>  4 kjohnson3 3.1.0      install           42           0 devel     
 #>  5 lconway   3.1.0      buildbin           9           0 devel     
 #>  6 lconway   3.1.0      buildsrc          11           2 devel     
 #>  7 lconway   3.1.0      checksrc           9           1 devel     
 #>  8 lconway   3.1.0      install           11           0 devel     
-#>  9 nebbiolo1 3.1.0      buildsrc          51          14 devel     
-#> 10 nebbiolo1 3.1.0      checksrc          37           8 devel     
-#> 11 nebbiolo1 3.1.0      install           51           0 devel     
+#>  9 nebbiolo1 3.1.0      buildsrc          53          14 devel     
+#> 10 nebbiolo1 3.1.0      checksrc          39           8 devel     
+#> 11 nebbiolo1 3.1.0      install           53           0 devel     
 ```

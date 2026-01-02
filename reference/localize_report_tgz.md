@@ -28,6 +28,10 @@ A character(1) with the path to the localized report.tgz file.
 ## Examples
 
 ``` r
-localize_report_tgz("https://bioconductor.org/checkResults/3.14/bioc-LATEST/report.tgz")
-#> [1] "/tmp/RtmpdiwTVl/b0e50af261966e090388524f021bb139-report.tgz"
+if (interactive()) {
+  local_report_tgz = localize_report_tgz(
+    "https://bioconductor.org/checkResults/3.14/bioc-LATEST/report.tgz"
+  )
+  print(local_report_tgz)
+}
 ```

@@ -171,9 +171,9 @@ bfc_errors_builder
 #> # A tibble: 3 × 6
 #>   node      version    stage    count_total count_error git_branch  
 #>   <chr>     <pckg_vrs> <chr>          <int>       <int> <chr>       
-#> 1 nebbiolo2 3.0.0      buildsrc          27           8 RELEASE_3_22
-#> 2 nebbiolo2 3.0.0      checksrc          19           6 RELEASE_3_22
-#> 3 nebbiolo2 3.0.0      install           27           0 RELEASE_3_22
+#> 1 nebbiolo2 3.0.0      buildsrc          28           8 RELEASE_3_22
+#> 2 nebbiolo2 3.0.0      checksrc          20           6 RELEASE_3_22
+#> 3 nebbiolo2 3.0.0      install           28           0 RELEASE_3_22
 ```
 
 This returns:
@@ -196,17 +196,17 @@ dev_errors |> filter(version == max(version))
 #> # A tibble: 11 × 6
 #>    node      version    stage    count_total count_error git_branch
 #>    <chr>     <pckg_vrs> <chr>          <int>       <int> <chr>     
-#>  1 kjohnson3 3.1.0      buildbin          29           0 devel     
-#>  2 kjohnson3 3.1.0      buildsrc          40          11 devel     
-#>  3 kjohnson3 3.1.0      checksrc          29           0 devel     
-#>  4 kjohnson3 3.1.0      install           40           0 devel     
+#>  1 kjohnson3 3.1.0      buildbin          31           0 devel     
+#>  2 kjohnson3 3.1.0      buildsrc          42          11 devel     
+#>  3 kjohnson3 3.1.0      checksrc          31           0 devel     
+#>  4 kjohnson3 3.1.0      install           42           0 devel     
 #>  5 lconway   3.1.0      buildbin           9           0 devel     
 #>  6 lconway   3.1.0      buildsrc          11           2 devel     
 #>  7 lconway   3.1.0      checksrc           9           1 devel     
 #>  8 lconway   3.1.0      install           11           0 devel     
-#>  9 nebbiolo1 3.1.0      buildsrc          51          14 devel     
-#> 10 nebbiolo1 3.1.0      checksrc          37           8 devel     
-#> 11 nebbiolo1 3.1.0      install           51           0 devel
+#>  9 nebbiolo1 3.1.0      buildsrc          53          14 devel     
+#> 10 nebbiolo1 3.1.0      checksrc          39           8 devel     
+#> 11 nebbiolo1 3.1.0      install           53           0 devel
 ```
 
 ## Exploratory Data Analysis
@@ -279,10 +279,10 @@ status_counts
 #> # A tibble: 4 × 2
 #>   status          n
 #>   <chr>       <int>
-#> 1 OK       12216633
-#> 2 WARNINGS   595305
-#> 3 ERROR      371141
-#> 4 TIMEOUT     17173
+#> 1 OK       12261121
+#> 2 WARNINGS   597591
+#> 3 ERROR      372722
+#> 4 TIMEOUT     17250
 
 # Visualize status distribution
 ggplot(status_counts, aes(x = reorder(status, n), y = n)) +
@@ -338,13 +338,13 @@ head(error_rates, 10)
 #>    node      error_count   total error_rate
 #>    <chr>           <int>   <int>      <dbl>
 #>  1 riesling1          12      88      13.6 
-#>  2 kakapo1            62     558      11.1 
-#>  3 biocgpu           189    1736      10.9 
-#>  4 amarone           102    1137       8.97
-#>  5 taishan         53826  911753       5.90
+#>  2 kakapo1            68     579      11.7 
+#>  3 biocgpu           195    1784      10.9 
+#>  4 amarone           108    1158       9.33
+#>  5 taishan         54147  918331       5.90
 #>  6 kunpeng2        50358  907145       5.55
-#>  7 nebbiolo1       50669 1681259       3.01
-#>  8 kjohnson3       64357 2189528       2.94
+#>  7 nebbiolo1       51189 1696475       3.02
+#>  8 kjohnson3       64920 2207571       2.94
 #>  9 kjohnson2         251    8628       2.91
 #> 10 palomino3       11216  436957       2.57
 ```
@@ -364,11 +364,11 @@ stage_failures
 #> # A tibble: 8 × 3
 #>   stage    status       n
 #>   <chr>    <chr>    <int>
-#> 1 buildsrc ERROR   196525
-#> 2 checksrc ERROR   105653
-#> 3 install  ERROR    68101
-#> 4 checksrc TIMEOUT   9227
-#> 5 buildsrc TIMEOUT   7857
+#> 1 buildsrc ERROR   197331
+#> 2 checksrc ERROR   106203
+#> 3 install  ERROR    68326
+#> 4 checksrc TIMEOUT   9269
+#> 5 buildsrc TIMEOUT   7892
 #> 6 buildbin ERROR      862
 #> 7 buildbin TIMEOUT     57
 #> 8 install  TIMEOUT     32
@@ -409,14 +409,14 @@ head(package_errors, 10)
 #> # A tibble: 10 × 2
 #>    package    total_errors
 #>    <chr>             <int>
-#>  1 lapmix             2138
-#>  2 netZooR            1693
+#>  1 lapmix             2142
+#>  2 netZooR            1697
 #>  3 hypeR              1685
-#>  4 XNAString          1450
-#>  5 Repitools          1444
-#>  6 ChemmineOB         1442
-#>  7 ccfindR            1422
-#>  8 gpuMagic           1392
+#>  4 XNAString          1454
+#>  5 ChemmineOB         1452
+#>  6 Repitools          1447
+#>  7 ccfindR            1426
+#>  8 gpuMagic           1396
 #>  9 graper             1388
 #> 10 gespeR             1375
 ```
