@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   BiocBuildDB-use-cases: BiocBuildDB-use-cases.html
   build-reports: build-reports.html
-last_built: 2026-01-02T20:14Z
+last_built: 2026-02-17T15:01Z
 urls:
   reference: https://seandavi.github.io/BiocBuildDB/reference
   article: https://seandavi.github.io/BiocBuildDB/articles

@@ -54,7 +54,7 @@ Lori Shepherd
 
 ``` r
 get_build_report("2025-12-29", branch="RELEASE_3_22", builder="nebbiolo2")
-#> # A tibble: 3,827 × 12
+#> # A tibble: 3,659 × 12
 #>    package node     stage version status startedat           endedat            
 #>    <chr>   <chr>    <fct> <pckg_> <chr>  <dttm>              <dttm>             
 #>  1 ABSSeq  nebbiol… inst… 1.64.0  OK     2025-12-29 20:05:54 2025-12-29 20:06:15
@@ -67,7 +67,7 @@ get_build_report("2025-12-29", branch="RELEASE_3_22", builder="nebbiolo2")
 #>  8 ACME    nebbiol… buil… 2.66.0  OK     2025-12-29 21:11:23 2025-12-29 21:11:44
 #>  9 ADAM    nebbiol… inst… 1.26.0  OK     2025-12-29 20:41:39 2025-12-29 20:42:11
 #> 10 ADAM    nebbiol… buil… 1.26.0  OK     2025-12-29 21:11:23 2025-12-29 21:12:07
-#> # ℹ 3,817 more rows
+#> # ℹ 3,649 more rows
 #> # ℹ 5 more variables: command <chr>, report_md5 <chr>, git_branch <chr>,
 #> #   git_last_commit <chr>, git_last_commit_date <dttm>
 ```

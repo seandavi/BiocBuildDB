@@ -45,7 +45,7 @@ Lori Shepherd
 
 ``` r
 get_failing_packages("RELEASE_3_22")
-#> # A tibble: 1,984 × 6
+#> # A tibble: 1,928 × 6
 #>    git_branch   package  version    node      stages            statuses
 #>    <chr>        <chr>    <pckg_vrs> <chr>     <chr>             <chr>   
 #>  1 RELEASE_3_22 ACME     2.66.0     taishan   buildsrc, install ERROR   
@@ -58,20 +58,20 @@ get_failing_packages("RELEASE_3_22")
 #>  8 RELEASE_3_22 ANF      1.32.0     taishan   buildsrc          TIMEOUT 
 #>  9 RELEASE_3_22 APAlyzer 1.24.0     kjohnson1 checksrc          ERROR   
 #> 10 RELEASE_3_22 APAlyzer 1.24.0     kjohnson3 checksrc          ERROR   
-#> # ℹ 1,974 more rows
+#> # ℹ 1,918 more rows
 get_failing_packages("RELEASE_3_22", "nebbiolo2")
-#> # A tibble: 444 × 6
+#> # A tibble: 547 × 6
 #>    git_branch   package                  version    node      stages    statuses
 #>    <chr>        <chr>                    <pckg_vrs> <chr>     <chr>     <chr>   
 #>  1 RELEASE_3_22 APAlyzer                 1.24.0     nebbiolo2 checksrc  ERROR   
 #>  2 RELEASE_3_22 ASURAT                   1.14.0     nebbiolo2 buildsrc… ERROR   
-#>  3 RELEASE_3_22 AWAggregatorData         1.0.0      nebbiolo2 buildsrc  TIMEOUT 
+#>  3 RELEASE_3_22 AWAggregatorData         1.0.0      nebbiolo2 buildsrc  ERROR, …
 #>  4 RELEASE_3_22 AlphaMissense.v2023.hg19 3.18.2     nebbiolo2 buildsrc  ERROR   
 #>  5 RELEASE_3_22 AlphaMissense.v2023.hg38 3.18.2     nebbiolo2 buildsrc  ERROR   
 #>  6 RELEASE_3_22 AlphaMissenseR           1.6.1      nebbiolo2 checksrc  ERROR   
-#>  7 RELEASE_3_22 ArrayExpress             1.70.0     nebbiolo2 buildsrc… ERROR   
-#>  8 RELEASE_3_22 BPRMeth                  1.36.0     nebbiolo2 checksrc  ERROR   
-#>  9 RELEASE_3_22 BUSpaRse                 1.24.0     nebbiolo2 buildsrc… ERROR, …
-#> 10 RELEASE_3_22 BayesSpace               1.20.0     nebbiolo2 buildsrc… ERROR   
-#> # ℹ 434 more rows
+#>  7 RELEASE_3_22 AnnotationHub            4.0.0      nebbiolo2 checksrc  ERROR   
+#>  8 RELEASE_3_22 ArrayExpress             1.70.0     nebbiolo2 buildsrc… ERROR   
+#>  9 RELEASE_3_22 BPRMeth                  1.36.0     nebbiolo2 checksrc  ERROR   
+#> 10 RELEASE_3_22 BUSpaRse                 1.24.0     nebbiolo2 buildsrc… ERROR, …
+#> # ℹ 537 more rows
 ```

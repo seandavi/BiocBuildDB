@@ -171,9 +171,9 @@ bfc_errors_builder
 #> # A tibble: 3 × 6
 #>   node      version    stage    count_total count_error git_branch  
 #>   <chr>     <pckg_vrs> <chr>          <int>       <int> <chr>       
-#> 1 nebbiolo2 3.0.0      buildsrc          28           8 RELEASE_3_22
-#> 2 nebbiolo2 3.0.0      checksrc          20           6 RELEASE_3_22
-#> 3 nebbiolo2 3.0.0      install           28           0 RELEASE_3_22
+#> 1 nebbiolo2 3.0.0      buildsrc          39           8 RELEASE_3_22
+#> 2 nebbiolo2 3.0.0      checksrc          31           7 RELEASE_3_22
+#> 3 nebbiolo2 3.0.0      install           39           0 RELEASE_3_22
 ```
 
 This returns:
@@ -196,17 +196,17 @@ dev_errors |> filter(version == max(version))
 #> # A tibble: 11 × 6
 #>    node      version    stage    count_total count_error git_branch
 #>    <chr>     <pckg_vrs> <chr>          <int>       <int> <chr>     
-#>  1 kjohnson3 3.1.0      buildbin          31           0 devel     
-#>  2 kjohnson3 3.1.0      buildsrc          42          11 devel     
-#>  3 kjohnson3 3.1.0      checksrc          31           0 devel     
-#>  4 kjohnson3 3.1.0      install           42           0 devel     
+#>  1 kjohnson3 3.1.0      buildbin          46           0 devel     
+#>  2 kjohnson3 3.1.0      buildsrc          57          11 devel     
+#>  3 kjohnson3 3.1.0      checksrc          46           0 devel     
+#>  4 kjohnson3 3.1.0      install           57           0 devel     
 #>  5 lconway   3.1.0      buildbin           9           0 devel     
 #>  6 lconway   3.1.0      buildsrc          11           2 devel     
 #>  7 lconway   3.1.0      checksrc           9           1 devel     
 #>  8 lconway   3.1.0      install           11           0 devel     
-#>  9 nebbiolo1 3.1.0      buildsrc          53          14 devel     
-#> 10 nebbiolo1 3.1.0      checksrc          39           8 devel     
-#> 11 nebbiolo1 3.1.0      install           53           0 devel
+#>  9 nebbiolo1 3.1.0      buildsrc          85          14 devel     
+#> 10 nebbiolo1 3.1.0      checksrc          71           8 devel     
+#> 11 nebbiolo1 3.1.0      install           85           0 devel
 ```
 
 ## Exploratory Data Analysis
@@ -234,7 +234,7 @@ package_counts
 #> # A tibble: 12 × 2
 #>    git_branch   n_packages
 #>    <chr>             <int>
-#>  1 devel              3031
+#>  1 devel              3052
 #>  2 RELEASE_3_22       2885
 #>  3 RELEASE_3_21       2859
 #>  4 RELEASE_3_19       2816
@@ -279,10 +279,10 @@ status_counts
 #> # A tibble: 4 × 2
 #>   status          n
 #>   <chr>       <int>
-#> 1 OK       12261121
-#> 2 WARNINGS   597591
-#> 3 ERROR      372722
-#> 4 TIMEOUT     17250
+#> 1 OK       12716622
+#> 2 WARNINGS   621853
+#> 3 ERROR      388476
+#> 4 TIMEOUT     17582
 
 # Visualize status distribution
 ggplot(status_counts, aes(x = reorder(status, n), y = n)) +
@@ -337,14 +337,14 @@ head(error_rates, 10)
 #> # A tibble: 10 × 4
 #>    node      error_count   total error_rate
 #>    <chr>           <int>   <int>      <dbl>
-#>  1 riesling1          12      88      13.6 
-#>  2 kakapo1            68     579      11.7 
-#>  3 biocgpu           195    1784      10.9 
-#>  4 amarone           108    1158       9.33
-#>  5 taishan         54147  918331       5.90
+#>  1 kakapo1           114     740      15.4 
+#>  2 riesling1          12      88      13.6 
+#>  3 amarone           196    1466      13.4 
+#>  4 biocgpu           265    2328      11.4 
+#>  5 taishan         55374  944243       5.86
 #>  6 kunpeng2        50358  907145       5.55
-#>  7 nebbiolo1       51189 1696475       3.02
-#>  8 kjohnson3       64920 2207571       2.94
+#>  7 nebbiolo1       58379 1934925       3.02
+#>  8 kjohnson3       69678 2342492       2.97
 #>  9 kjohnson2         251    8628       2.91
 #> 10 palomino3       11216  436957       2.57
 ```
@@ -364,12 +364,12 @@ stage_failures
 #> # A tibble: 8 × 3
 #>   stage    status       n
 #>   <chr>    <chr>    <int>
-#> 1 buildsrc ERROR   197331
-#> 2 checksrc ERROR   106203
-#> 3 install  ERROR    68326
-#> 4 checksrc TIMEOUT   9269
-#> 5 buildsrc TIMEOUT   7892
-#> 6 buildbin ERROR      862
+#> 1 buildsrc ERROR   204920
+#> 2 checksrc ERROR   111973
+#> 3 install  ERROR    70717
+#> 4 checksrc TIMEOUT   9444
+#> 5 buildsrc TIMEOUT   8049
+#> 6 buildbin ERROR      866
 #> 7 buildbin TIMEOUT     57
 #> 8 install  TIMEOUT     32
 
@@ -409,14 +409,14 @@ head(package_errors, 10)
 #> # A tibble: 10 × 2
 #>    package    total_errors
 #>    <chr>             <int>
-#>  1 lapmix             2142
-#>  2 netZooR            1697
+#>  1 lapmix             2172
+#>  2 netZooR            1727
 #>  3 hypeR              1685
-#>  4 XNAString          1454
-#>  5 ChemmineOB         1452
-#>  6 Repitools          1447
-#>  7 ccfindR            1426
-#>  8 gpuMagic           1396
+#>  4 ChemmineOB         1554
+#>  5 XNAString          1484
+#>  6 Repitools          1472
+#>  7 ccfindR            1456
+#>  8 gpuMagic           1426
 #>  9 graper             1388
 #> 10 gespeR             1375
 ```
@@ -448,9 +448,9 @@ head(maintainer_packages, 10)
 #>  5 Laurent Gatto                           24 depmap, RforProteomics, CTdata, h…
 #>  6 Marcel Ramos                            24 curatedTCGAData, SingleCellMultiM…
 #>  7 Michael Love                            20 airway, fission, macrophage, null…
-#>  8 Mike Smith                              16 BeadArrayUseCases, HD2013SGI, min…
-#>  9 Felix G.M. Ernst                        15 RNAmodR.Data, EpiTxDb, Modstrings…
-#> 10 Guangchuang Yu                          15 ChIPseeker, clusterProfiler, DOSE…
+#>  8 Guangchuang Yu                          16 ChIPseeker, clusterProfiler, DOSE…
+#>  9 Jianhong Ou                             16 ATACseqQC, ATACseqTFEA, ChIPpeakA…
+#> 10 Mike Smith                              16 BeadArrayUseCases, HD2013SGI, min…
 
 # Distribution of packages per maintainer
 ggplot(maintainer_packages, aes(x = n_packages)) +
