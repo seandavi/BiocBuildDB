@@ -29,5 +29,5 @@ Sean Davis \<seandavi@gmail.com\>
 
 ``` r
 last_modified_date("https://bioconductor.org/checkResults/3.14/bioc-LATEST/report.tgz")
-#> [1] "2022-04-13 16:09:23 UTC"
+#> [1] "2026-08-08 06:10:09 UTC"
 ```

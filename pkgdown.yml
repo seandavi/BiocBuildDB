@@ -1,10 +1,10 @@
-pandoc: 3.1.11
-pkgdown: 2.2.0
+pandoc: 3.8.3
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   BiocBuildDB-use-cases: BiocBuildDB-use-cases.html
   build-reports: build-reports.html
-last_built: 2026-02-17T15:01Z
+last_built: 2026-10-22T16:41Z
 urls:
   reference: https://seandavi.github.io/BiocBuildDB/reference
   article: https://seandavi.github.io/BiocBuildDB/articles

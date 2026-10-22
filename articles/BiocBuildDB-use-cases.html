@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>BiocBuildDB Data Use Cases • BiocBuildDB</title>
 <script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="BiocBuildDB-use-cases_files/libs/quarto-html/popper.min.js"></script><script src="BiocBuildDB-use-cases_files/libs/quarto-html/tippy.umd.min.js"></script><link href="BiocBuildDB-use-cases_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="BiocBuildDB-use-cases_files/libs/quarto-html/light-border.css" rel="stylesheet">
@@ -162,7 +162,7 @@
 <code class="sourceCode R"><span><span class="co"># Get release information for BiocFileCache</span></span>
 <span><span class="va">bfc_releases</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_package_release_info.html">get_package_release_info</a></span><span class="op">(</span><span class="st">"BiocFileCache"</span><span class="op">)</span></span>
 <span><span class="va">bfc_releases</span></span>
-<span><span class="co">#&gt; # A tibble: 11 × 5</span></span>
+<span><span class="co">#&gt; # A tibble: 12 × 5</span></span>
 <span><span class="co">#&gt;    Package       Version git_branch   git_last_commit git_last_commit_date</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;           &lt;dttm&gt;              </span></span>
 <span><span class="co">#&gt;  1 BiocFileCache 2.0.0   RELEASE_3_13 280a8f9         2021-05-19 16:26:36 </span></span>
@@ -175,7 +175,8 @@
 <span><span class="co">#&gt;  8 BiocFileCache 2.14.0  RELEASE_3_20 66862c5         2024-10-29 15:18:07 </span></span>
 <span><span class="co">#&gt;  9 BiocFileCache 2.16.2  RELEASE_3_21 22fec96         2025-08-25 12:44:02 </span></span>
 <span><span class="co">#&gt; 10 BiocFileCache 3.0.0   RELEASE_3_22 81fd6e0         2025-10-29 15:37:29 </span></span>
-<span><span class="co">#&gt; 11 BiocFileCache 3.1.0   devel        c4f8ba6         2025-10-29 15:37:29</span></span></code></pre></div>
+<span><span class="co">#&gt; 11 BiocFileCache 3.2.0   RELEASE_3_23 6283a0f         2026-04-28 12:45:18 </span></span>
+<span><span class="co">#&gt; 12 BiocFileCache 3.3.0   devel        20482da         2026-04-28 12:45:18</span></span></code></pre></div>
 </div>
 <p>This shows:</p>
 <ul>
@@ -193,7 +194,7 @@
 <code class="sourceCode R"><span><span class="co"># Get error counts for BiocFileCache</span></span>
 <span><span class="va">bfc_errors</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/package_error_count.html">package_error_count</a></span><span class="op">(</span><span class="st">"BiocFileCache"</span><span class="op">)</span></span>
 <span><span class="va">bfc_errors</span></span>
-<span><span class="co">#&gt; # A tibble: 408 × 6</span></span>
+<span><span class="co">#&gt; # A tibble: 432 × 6</span></span>
 <span><span class="co">#&gt;    node      version    stage    count_total count_error git_branch  </span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;     &lt;pckg_vrs&gt; &lt;chr&gt;          &lt;int&gt;       &lt;int&gt; &lt;chr&gt;       </span></span>
 <span><span class="co">#&gt;  1 machv2    2.0.0      buildbin           1           0 RELEASE_3_13</span></span>
@@ -206,7 +207,7 @@
 <span><span class="co">#&gt;  8 tokay2    2.0.0      buildbin           1           0 RELEASE_3_13</span></span>
 <span><span class="co">#&gt;  9 tokay2    2.0.0      buildsrc           1           0 RELEASE_3_13</span></span>
 <span><span class="co">#&gt; 10 tokay2    2.0.0      checksrc           1           0 RELEASE_3_13</span></span>
-<span><span class="co">#&gt; # ℹ 398 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 422 more rows</span></span>
 <span></span>
 <span><span class="co"># Filter to a specific branch</span></span>
 <span><span class="va">bfc_errors_release</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/package_error_count.html">package_error_count</a></span><span class="op">(</span><span class="st">"BiocFileCache"</span>, branch <span class="op">=</span> <span class="st">"RELEASE_3_22"</span><span class="op">)</span></span>
@@ -234,9 +235,9 @@
 <span><span class="co">#&gt; # A tibble: 3 × 6</span></span>
 <span><span class="co">#&gt;   node      version    stage    count_total count_error git_branch  </span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;     &lt;pckg_vrs&gt; &lt;chr&gt;          &lt;int&gt;       &lt;int&gt; &lt;chr&gt;       </span></span>
-<span><span class="co">#&gt; 1 nebbiolo2 3.0.0      buildsrc          39           8 RELEASE_3_22</span></span>
-<span><span class="co">#&gt; 2 nebbiolo2 3.0.0      checksrc          31           7 RELEASE_3_22</span></span>
-<span><span class="co">#&gt; 3 nebbiolo2 3.0.0      install           39           0 RELEASE_3_22</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 nebbiolo2 3.0.0      buildsrc          80           9 RELEASE_3_22</span></span>
+<span><span class="co">#&gt; 2 nebbiolo2 3.0.0      checksrc          70           9 RELEASE_3_22</span></span>
+<span><span class="co">#&gt; 3 nebbiolo2 3.0.0      install           80           0 RELEASE_3_22</span></span></code></pre></div>
 </div>
 <p>This returns:</p>
 <ul>
@@ -255,20 +256,18 @@
 <span></span>
 <span><span class="co"># Filter to current devel version</span></span>
 <span><span class="va">dev_errors</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">version</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">version</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 11 × 6</span></span>
-<span><span class="co">#&gt;    node      version    stage    count_total count_error git_branch</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;     &lt;pckg_vrs&gt; &lt;chr&gt;          &lt;int&gt;       &lt;int&gt; &lt;chr&gt;     </span></span>
-<span><span class="co">#&gt;  1 kjohnson3 3.1.0      buildbin          46           0 devel     </span></span>
-<span><span class="co">#&gt;  2 kjohnson3 3.1.0      buildsrc          57          11 devel     </span></span>
-<span><span class="co">#&gt;  3 kjohnson3 3.1.0      checksrc          46           0 devel     </span></span>
-<span><span class="co">#&gt;  4 kjohnson3 3.1.0      install           57           0 devel     </span></span>
-<span><span class="co">#&gt;  5 lconway   3.1.0      buildbin           9           0 devel     </span></span>
-<span><span class="co">#&gt;  6 lconway   3.1.0      buildsrc          11           2 devel     </span></span>
-<span><span class="co">#&gt;  7 lconway   3.1.0      checksrc           9           1 devel     </span></span>
-<span><span class="co">#&gt;  8 lconway   3.1.0      install           11           0 devel     </span></span>
-<span><span class="co">#&gt;  9 nebbiolo1 3.1.0      buildsrc          85          14 devel     </span></span>
-<span><span class="co">#&gt; 10 nebbiolo1 3.1.0      checksrc          71           8 devel     </span></span>
-<span><span class="co">#&gt; 11 nebbiolo1 3.1.0      install           85           0 devel</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 9 × 6</span></span>
+<span><span class="co">#&gt;   node      version    stage    count_total count_error git_branch</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;     &lt;pckg_vrs&gt; &lt;chr&gt;          &lt;int&gt;       &lt;int&gt; &lt;chr&gt;     </span></span>
+<span><span class="co">#&gt; 1 kjohnson3 3.3.0      buildsrc          15           0 devel     </span></span>
+<span><span class="co">#&gt; 2 kjohnson3 3.3.0      checksrc          15           0 devel     </span></span>
+<span><span class="co">#&gt; 3 kjohnson3 3.3.0      install           15           0 devel     </span></span>
+<span><span class="co">#&gt; 4 nebbiolo2 3.3.0      buildsrc          34           0 devel     </span></span>
+<span><span class="co">#&gt; 5 nebbiolo2 3.3.0      checksrc          34           1 devel     </span></span>
+<span><span class="co">#&gt; 6 nebbiolo2 3.3.0      install           34           0 devel     </span></span>
+<span><span class="co">#&gt; 7 taishan   3.3.0      buildsrc           1           0 devel     </span></span>
+<span><span class="co">#&gt; 8 taishan   3.3.0      checksrc           1           0 devel     </span></span>
+<span><span class="co">#&gt; 9 taishan   3.3.0      install            1           0 devel</span></span></code></pre></div>
 </div>
 </section></section><section class="section level2"><h2 id="exploratory-data-analysis">Exploratory Data Analysis<a class="anchor" aria-label="anchor" href="#exploratory-data-analysis"></a>
 </h2>
@@ -291,21 +290,22 @@
 <span></span>
 <span><span class="co"># Display the counts</span></span>
 <span><span class="va">package_counts</span></span>
-<span><span class="co">#&gt; # A tibble: 12 × 2</span></span>
+<span><span class="co">#&gt; # A tibble: 13 × 2</span></span>
 <span><span class="co">#&gt;    git_branch   n_packages</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;             &lt;int&gt;</span></span>
-<span><span class="co">#&gt;  1 devel              3052</span></span>
-<span><span class="co">#&gt;  2 RELEASE_3_22       2885</span></span>
-<span><span class="co">#&gt;  3 RELEASE_3_21       2859</span></span>
-<span><span class="co">#&gt;  4 RELEASE_3_19       2816</span></span>
-<span><span class="co">#&gt;  5 RELEASE_3_20       2807</span></span>
-<span><span class="co">#&gt;  6 RELEASE_3_18       2778</span></span>
-<span><span class="co">#&gt;  7 RELEASE_3_17       2723</span></span>
-<span><span class="co">#&gt;  8 RELEASE_3_16       2670</span></span>
-<span><span class="co">#&gt;  9 RELEASE_3_15       2622</span></span>
-<span><span class="co">#&gt; 10 RELEASE_3_14       2528</span></span>
-<span><span class="co">#&gt; 11 RELEASE_3_13       2475</span></span>
-<span><span class="co">#&gt; 12 master               33</span></span>
+<span><span class="co">#&gt;  1 devel              3140</span></span>
+<span><span class="co">#&gt;  2 RELEASE_3_23       2915</span></span>
+<span><span class="co">#&gt;  3 RELEASE_3_22       2885</span></span>
+<span><span class="co">#&gt;  4 RELEASE_3_21       2859</span></span>
+<span><span class="co">#&gt;  5 RELEASE_3_19       2816</span></span>
+<span><span class="co">#&gt;  6 RELEASE_3_20       2807</span></span>
+<span><span class="co">#&gt;  7 RELEASE_3_18       2778</span></span>
+<span><span class="co">#&gt;  8 RELEASE_3_17       2723</span></span>
+<span><span class="co">#&gt;  9 RELEASE_3_16       2670</span></span>
+<span><span class="co">#&gt; 10 RELEASE_3_15       2622</span></span>
+<span><span class="co">#&gt; 11 RELEASE_3_14       2528</span></span>
+<span><span class="co">#&gt; 12 RELEASE_3_13       2475</span></span>
+<span><span class="co">#&gt; 13 master               33</span></span>
 <span></span>
 <span><span class="co"># Visualize package counts by branch</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">package_counts</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">git_branch</span>, <span class="va">n_packages</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">n_packages</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -341,10 +341,10 @@
 <span><span class="co">#&gt; # A tibble: 4 × 2</span></span>
 <span><span class="co">#&gt;   status          n</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;       &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 OK       12716622</span></span>
-<span><span class="co">#&gt; 2 WARNINGS   621853</span></span>
-<span><span class="co">#&gt; 3 ERROR      388476</span></span>
-<span><span class="co">#&gt; 4 TIMEOUT     17582</span></span>
+<span><span class="co">#&gt; 1 OK       14461974</span></span>
+<span><span class="co">#&gt; 2 WARNINGS   718353</span></span>
+<span><span class="co">#&gt; 3 ERROR      475727</span></span>
+<span><span class="co">#&gt; 4 TIMEOUT     18630</span></span>
 <span></span>
 <span><span class="co"># Visualize status distribution</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">status_counts</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">status</span>, <span class="va">n</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -402,14 +402,14 @@
 <span><span class="co">#&gt; # A tibble: 10 × 4</span></span>
 <span><span class="co">#&gt;    node      error_count   total error_rate</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;           &lt;int&gt;   &lt;int&gt;      &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 kakapo1           114     740      15.4 </span></span>
-<span><span class="co">#&gt;  2 riesling1          12      88      13.6 </span></span>
-<span><span class="co">#&gt;  3 amarone           196    1466      13.4 </span></span>
-<span><span class="co">#&gt;  4 biocgpu           265    2328      11.4 </span></span>
-<span><span class="co">#&gt;  5 taishan         55374  944243       5.86</span></span>
-<span><span class="co">#&gt;  6 kunpeng2        50358  907145       5.55</span></span>
-<span><span class="co">#&gt;  7 nebbiolo1       58379 1934925       3.02</span></span>
-<span><span class="co">#&gt;  8 kjohnson3       69678 2342492       2.97</span></span>
+<span><span class="co">#&gt;  1 kakapo1           317    1574      20.1 </span></span>
+<span><span class="co">#&gt;  2 amarone           281    2023      13.9 </span></span>
+<span><span class="co">#&gt;  3 riesling1          12      88      13.6 </span></span>
+<span><span class="co">#&gt;  4 biocgpu           373    3902       9.56</span></span>
+<span><span class="co">#&gt;  5 kunpeng2        55629  925634       6.01</span></span>
+<span><span class="co">#&gt;  6 taishan         56162  950813       5.91</span></span>
+<span><span class="co">#&gt;  7 kjohnson3      115871 2919399       3.97</span></span>
+<span><span class="co">#&gt;  8 nebbiolo1       77941 2616827       2.98</span></span>
 <span><span class="co">#&gt;  9 kjohnson2         251    8628       2.91</span></span>
 <span><span class="co">#&gt; 10 palomino3       11216  436957       2.57</span></span></code></pre></div>
 </div>
@@ -428,12 +428,12 @@
 <span><span class="co">#&gt; # A tibble: 8 × 3</span></span>
 <span><span class="co">#&gt;   stage    status       n</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 buildsrc ERROR   204920</span></span>
-<span><span class="co">#&gt; 2 checksrc ERROR   111973</span></span>
-<span><span class="co">#&gt; 3 install  ERROR    70717</span></span>
-<span><span class="co">#&gt; 4 checksrc TIMEOUT   9444</span></span>
-<span><span class="co">#&gt; 5 buildsrc TIMEOUT   8049</span></span>
-<span><span class="co">#&gt; 6 buildbin ERROR      866</span></span>
+<span><span class="co">#&gt; 1 buildsrc ERROR   247396</span></span>
+<span><span class="co">#&gt; 2 checksrc ERROR   129746</span></span>
+<span><span class="co">#&gt; 3 install  ERROR    92735</span></span>
+<span><span class="co">#&gt; 4 checksrc TIMEOUT   9909</span></span>
+<span><span class="co">#&gt; 5 buildsrc TIMEOUT   8632</span></span>
+<span><span class="co">#&gt; 6 buildbin ERROR     5850</span></span>
 <span><span class="co">#&gt; 7 buildbin TIMEOUT     57</span></span>
 <span><span class="co">#&gt; 8 install  TIMEOUT     32</span></span>
 <span></span>
@@ -476,16 +476,16 @@
 <span><span class="co">#&gt; # A tibble: 10 × 2</span></span>
 <span><span class="co">#&gt;    package    total_errors</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;             &lt;int&gt;</span></span>
-<span><span class="co">#&gt;  1 lapmix             2172</span></span>
-<span><span class="co">#&gt;  2 netZooR            1727</span></span>
-<span><span class="co">#&gt;  3 hypeR              1685</span></span>
-<span><span class="co">#&gt;  4 ChemmineOB         1554</span></span>
-<span><span class="co">#&gt;  5 XNAString          1484</span></span>
-<span><span class="co">#&gt;  6 Repitools          1472</span></span>
-<span><span class="co">#&gt;  7 ccfindR            1456</span></span>
-<span><span class="co">#&gt;  8 gpuMagic           1426</span></span>
-<span><span class="co">#&gt;  9 graper             1388</span></span>
-<span><span class="co">#&gt; 10 gespeR             1375</span></span></code></pre></div>
+<span><span class="co">#&gt;  1 lapmix             2254</span></span>
+<span><span class="co">#&gt;  2 netZooR            2097</span></span>
+<span><span class="co">#&gt;  3 ChemmineOB         1726</span></span>
+<span><span class="co">#&gt;  4 hypeR              1700</span></span>
+<span><span class="co">#&gt;  5 ccfindR            1604</span></span>
+<span><span class="co">#&gt;  6 XNAString          1566</span></span>
+<span><span class="co">#&gt;  7 Repitools          1554</span></span>
+<span><span class="co">#&gt;  8 slalom             1523</span></span>
+<span><span class="co">#&gt;  9 gpuMagic           1508</span></span>
+<span><span class="co">#&gt; 10 ADAPT              1505</span></span></code></pre></div>
 </div>
 </section><section class="level2"><h3 id="maintainer-analysis">Maintainer Analysis<a class="anchor" aria-label="anchor" href="#maintainer-analysis"></a>
 </h3>
@@ -507,16 +507,16 @@
 <span><span class="co">#&gt; # A tibble: 10 × 3</span></span>
 <span><span class="co">#&gt;    Maintainer                      n_packages packages                          </span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;                                &lt;int&gt; &lt;chr&gt;                             </span></span>
-<span><span class="co">#&gt;  1 Bioconductor Package Maintainer         72 GSE62944, hgu2beta7, TENxBrainDat…</span></span>
-<span><span class="co">#&gt;  2 Aaron Lun                               62 celldex, chipseqDBData, DropletTe…</span></span>
-<span><span class="co">#&gt;  3 Hervé Pagès                             25 pasillaBamSubset, RNAseqData.HNRN…</span></span>
-<span><span class="co">#&gt;  4 VJ Carey                                25 harbChIP, leeBamViews, MAQCsubset…</span></span>
-<span><span class="co">#&gt;  5 Laurent Gatto                           24 depmap, RforProteomics, CTdata, h…</span></span>
-<span><span class="co">#&gt;  6 Marcel Ramos                            24 curatedTCGAData, SingleCellMultiM…</span></span>
-<span><span class="co">#&gt;  7 Michael Love                            20 airway, fission, macrophage, null…</span></span>
-<span><span class="co">#&gt;  8 Guangchuang Yu                          16 ChIPseeker, clusterProfiler, DOSE…</span></span>
-<span><span class="co">#&gt;  9 Jianhong Ou                             16 ATACseqQC, ATACseqTFEA, ChIPpeakA…</span></span>
-<span><span class="co">#&gt; 10 Mike Smith                              16 BeadArrayUseCases, HD2013SGI, min…</span></span>
+<span><span class="co">#&gt;  1 Bioconductor Package Maintainer         72 annotate, AnnotationDbi, Annotati…</span></span>
+<span><span class="co">#&gt;  2 Aaron Lun                               68 alabaster.base, alabaster.bumpy, …</span></span>
+<span><span class="co">#&gt;  3 Hervé Pagès                             27 BiocGenerics, Biostrings, BSgenom…</span></span>
+<span><span class="co">#&gt;  4 Marcel Ramos                            27 AnVIL, AnVILAz, AnVILBase, AnVILG…</span></span>
+<span><span class="co">#&gt;  5 VJ Carey                                25 gwascat, ivygapSE, keggorthology,…</span></span>
+<span><span class="co">#&gt;  6 Laurent Gatto                           24 CTdata, hpar, MsDataHub, MsExperi…</span></span>
+<span><span class="co">#&gt;  7 Michael Love                            20 DESeq2, fishpond, nullranges, ply…</span></span>
+<span><span class="co">#&gt;  8 Jianhong Ou                             17 annoLinker, ATACseqQC, ATACseqTFE…</span></span>
+<span><span class="co">#&gt;  9 Guangchuang Yu                          16 ChIPseeker, clusterProfiler, DOSE…</span></span>
+<span><span class="co">#&gt; 10 Mike Smith                              16 BeadDataPackR, BiocWorkflowTools,…</span></span>
 <span></span>
 <span><span class="co"># Distribution of packages per maintainer</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">maintainer_packages</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">n_packages</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -710,7 +710,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

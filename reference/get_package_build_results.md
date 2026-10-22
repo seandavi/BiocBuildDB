@@ -46,20 +46,18 @@ Lori Shepherd
 
 ``` r
 get_package_build_results("BiocFileCache")
-#> # A tibble: 11 × 9
-#>    package       node      stage   version status endedat             git_branch
-#>    <chr>         <chr>     <chr>   <chr>   <chr>  <dttm>              <chr>     
-#>  1 BiocFileCache kjohnson3 buildb… 3.1.0   OK     2026-01-24 04:13:36 devel     
-#>  2 BiocFileCache kjohnson3 builds… 3.1.0   OK     2026-01-23 20:51:59 devel     
-#>  3 BiocFileCache kjohnson3 checks… 3.1.0   OK     2026-01-23 23:47:26 devel     
-#>  4 BiocFileCache kjohnson3 install 3.1.0   OK     2026-01-23 20:09:14 devel     
-#>  5 BiocFileCache lconway   buildb… 3.1.0   OK     2025-11-28 10:57:17 devel     
-#>  6 BiocFileCache lconway   builds… 3.1.0   OK     2025-11-27 21:14:18 devel     
-#>  7 BiocFileCache lconway   checks… 3.1.0   OK     2025-11-28 01:22:22 devel     
-#>  8 BiocFileCache lconway   install 3.1.0   OK     2025-11-27 20:15:11 devel     
-#>  9 BiocFileCache nebbiolo1 builds… 3.1.0   OK     2026-02-15 21:30:49 devel     
-#> 10 BiocFileCache nebbiolo1 checks… 3.1.0   OK     2026-02-16 02:39:26 devel     
-#> 11 BiocFileCache nebbiolo1 install 3.1.0   OK     2026-02-15 20:09:51 devel     
+#> # A tibble: 9 × 9
+#>   package       node      stage    version status endedat             git_branch
+#>   <chr>         <chr>     <chr>    <chr>   <chr>  <dttm>              <chr>     
+#> 1 BiocFileCache kjohnson3 buildsrc 3.3.0   OK     2026-06-11 19:49:50 devel     
+#> 2 BiocFileCache kjohnson3 checksrc 3.3.0   OK     2026-06-11 22:57:11 devel     
+#> 3 BiocFileCache kjohnson3 install  3.3.0   OK     2026-06-11 19:05:39 devel     
+#> 4 BiocFileCache nebbiolo2 buildsrc 3.3.0   OK     2026-06-11 20:34:02 devel     
+#> 5 BiocFileCache nebbiolo2 checksrc 3.3.0   OK     2026-06-12 01:46:52 devel     
+#> 6 BiocFileCache nebbiolo2 install  3.3.0   OK     2026-06-11 19:09:24 devel     
+#> 7 BiocFileCache taishan   buildsrc 3.3.0   OK     2026-05-05 01:58:49 devel     
+#> 8 BiocFileCache taishan   checksrc 3.3.0   OK     2026-05-05 07:34:15 devel     
+#> 9 BiocFileCache taishan   install  3.3.0   OK     2026-05-04 23:33:02 devel     
 #> # ℹ 2 more variables: git_last_commit <chr>, git_last_commit_date <dttm>
 get_package_build_results("BiocFileCache", branch="RELEASE_3_22")
 #> # A tibble: 22 × 9

@@ -31,5 +31,5 @@ get_bbs_table
 
 ``` r
 get_latest_branches()
-#> [1] "devel"        "RELEASE_3_22"
+#> [1] "devel"        "RELEASE_3_23"
 ```

@@ -57,7 +57,7 @@ Lori Shepherd
 
 ``` r
 package_error_count("BiocFileCache")
-#> # A tibble: 408 × 6
+#> # A tibble: 432 × 6
 #>    node      version    stage    count_total count_error git_branch  
 #>    <chr>     <pckg_vrs> <chr>          <int>       <int> <chr>       
 #>  1 machv2    2.0.0      buildbin           1           0 RELEASE_3_13
@@ -70,7 +70,7 @@ package_error_count("BiocFileCache")
 #>  8 tokay2    2.0.0      buildbin           1           0 RELEASE_3_13
 #>  9 tokay2    2.0.0      buildsrc           1           0 RELEASE_3_13
 #> 10 tokay2    2.0.0      checksrc           1           0 RELEASE_3_13
-#> # ℹ 398 more rows
+#> # ℹ 422 more rows
 package_error_count("BiocFileCache", branch="RELEASE_3_22")
 #> # A tibble: 22 × 6
 #>    node      version    stage    count_total count_error git_branch  
@@ -90,27 +90,25 @@ package_error_count("BiocFileCache", builder = "nebbiolo2", branch="RELEASE_3_22
 #> # A tibble: 3 × 6
 #>   node      version    stage    count_total count_error git_branch  
 #>   <chr>     <pckg_vrs> <chr>          <int>       <int> <chr>       
-#> 1 nebbiolo2 3.0.0      buildsrc          39           8 RELEASE_3_22
-#> 2 nebbiolo2 3.0.0      checksrc          31           7 RELEASE_3_22
-#> 3 nebbiolo2 3.0.0      install           39           0 RELEASE_3_22
+#> 1 nebbiolo2 3.0.0      buildsrc          80           9 RELEASE_3_22
+#> 2 nebbiolo2 3.0.0      checksrc          70           9 RELEASE_3_22
+#> 3 nebbiolo2 3.0.0      install           80           0 RELEASE_3_22
 
 library(dplyr)
 ## devel will have more than just current devel
 devErrors <- package_error_count("BiocFileCache", branch="devel")
 ## can use package version number to filter to current devel
 devErrors |> filter(version == max(version))
-#> # A tibble: 11 × 6
-#>    node      version    stage    count_total count_error git_branch
-#>    <chr>     <pckg_vrs> <chr>          <int>       <int> <chr>     
-#>  1 kjohnson3 3.1.0      buildbin          46           0 devel     
-#>  2 kjohnson3 3.1.0      buildsrc          57          11 devel     
-#>  3 kjohnson3 3.1.0      checksrc          46           0 devel     
-#>  4 kjohnson3 3.1.0      install           57           0 devel     
-#>  5 lconway   3.1.0      buildbin           9           0 devel     
-#>  6 lconway   3.1.0      buildsrc          11           2 devel     
-#>  7 lconway   3.1.0      checksrc           9           1 devel     
-#>  8 lconway   3.1.0      install           11           0 devel     
-#>  9 nebbiolo1 3.1.0      buildsrc          85          14 devel     
-#> 10 nebbiolo1 3.1.0      checksrc          71           8 devel     
-#> 11 nebbiolo1 3.1.0      install           85           0 devel     
+#> # A tibble: 9 × 6
+#>   node      version    stage    count_total count_error git_branch
+#>   <chr>     <pckg_vrs> <chr>          <int>       <int> <chr>     
+#> 1 kjohnson3 3.3.0      buildsrc          15           0 devel     
+#> 2 kjohnson3 3.3.0      checksrc          15           0 devel     
+#> 3 kjohnson3 3.3.0      install           15           0 devel     
+#> 4 nebbiolo2 3.3.0      buildsrc          34           0 devel     
+#> 5 nebbiolo2 3.3.0      checksrc          34           1 devel     
+#> 6 nebbiolo2 3.3.0      install           34           0 devel     
+#> 7 taishan   3.3.0      buildsrc           1           0 devel     
+#> 8 taishan   3.3.0      checksrc           1           0 devel     
+#> 9 taishan   3.3.0      install            1           0 devel     
 ```

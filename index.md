@@ -66,6 +66,7 @@ You can install the development version of BiocBuildDB from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("BiocManager")
 BiocManager("seandavi/BiocBuildDB")
 ```
@@ -74,3 +75,8 @@ BiocManager("seandavi/BiocBuildDB")
 
 See the vignettes for detailed examples on how to use BiocBuildDB to
 query and analyze Bioconductor build reports.
+
+## Status
+
+Still running, but bioconductor is transitioning to r-universe builds,
+so this site will soon be obsolete.

@@ -38,7 +38,7 @@ Lori Shepherd
 
 ``` r
 get_package_release_info("BiocFileCache")
-#> # A tibble: 11 × 5
+#> # A tibble: 12 × 5
 #>    Package       Version git_branch   git_last_commit git_last_commit_date
 #>    <chr>         <chr>   <chr>        <chr>           <dttm>              
 #>  1 BiocFileCache 2.0.0   RELEASE_3_13 280a8f9         2021-05-19 16:26:36 
@@ -51,5 +51,6 @@ get_package_release_info("BiocFileCache")
 #>  8 BiocFileCache 2.14.0  RELEASE_3_20 66862c5         2024-10-29 15:18:07 
 #>  9 BiocFileCache 2.16.2  RELEASE_3_21 22fec96         2025-08-25 12:44:02 
 #> 10 BiocFileCache 3.0.0   RELEASE_3_22 81fd6e0         2025-10-29 15:37:29 
-#> 11 BiocFileCache 3.1.0   devel        c4f8ba6         2025-10-29 15:37:29 
+#> 11 BiocFileCache 3.2.0   RELEASE_3_23 6283a0f         2026-04-28 12:45:18 
+#> 12 BiocFileCache 3.3.0   devel        20482da         2026-04-28 12:45:18 
 ```

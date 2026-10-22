@@ -49,29 +49,30 @@ Lori Shepherd
 info <- get_bbs_table("info")
 #> Using cached table 'info'
 info
-#> # A tibble: 1,277,194 × 9
+#> # A tibble: 1,714,270 × 9
 #>    Package Version Maintainer MaintainerEmail git_url git_branch git_last_commit
 #>    <chr>   <chr>   <chr>      <chr>           <chr>   <chr>      <chr>          
-#>  1 adduct… 1.26.0  Josie Hay… jlhayes1982 at… https:… RELEASE_3… 371b0e2        
-#>  2 affyco… 1.48.0  Robert D … rshear at ds.d… https:… RELEASE_3… 45dff8f        
-#>  3 affyda… 1.58.0  Robert D … rshear at ds.d… https:… RELEASE_3… 10b07a5        
-#>  4 Affyhg… 1.46.0  Zhicheng … zji4 at jhu.edu https:… RELEASE_3… 3087443        
-#>  5 Affyhg… 1.48.0  Zhicheng … zji4 at jhu.edu https:… RELEASE_3… 404c1b6        
-#>  6 Affyhg… 1.44.0  Zhicheng … zji4 at jhu.edu https:… RELEASE_3… 2df08dd        
-#>  7 Affyme… 0.48.0  Henrik Be… henrikb at bra… https:… RELEASE_3… d77ca79        
-#>  8 Affymo… 1.48.0  Zhicheng … zji4 at jhu.edu https:… RELEASE_3… 53202e1        
-#>  9 airway  1.30.0  Michael L… michaelisaiahl… https:… RELEASE_3… a6a39c3        
-#> 10 ALL     1.52.0  Robert Ge… rgentlem at gm… https:… RELEASE_3… 0bc53bb        
-#> # ℹ 1,277,184 more rows
+#>  1 a4      1.61.0  Laure Cou… laure.cougnaud… https:… devel      bb7aa77        
+#>  2 a4Base  1.61.0  Laure Cou… laure.cougnaud… https:… devel      8ed1f79        
+#>  3 a4Clas… 1.61.0  Laure Cou… laure.cougnaud… https:… devel      e8a308b        
+#>  4 a4Core  1.61.0  Laure Cou… laure.cougnaud… https:… devel      bab9e56        
+#>  5 a4Prep… 1.61.0  Laure Cou… laure.cougnaud… https:… devel      db56b19        
+#>  6 a4Repo… 1.61.0  Laure Cou… laure.cougnaud… https:… devel      9309d3b        
+#>  7 ABarray 1.81.0  Yongming … sunya at appli… https:… devel      196750a        
+#>  8 abseqR  1.31.0  JiaHong F… jiahfong at gm… https:… devel      b7b630e        
+#>  9 ABSSeq  1.67.0  Wentao Ya… wyang at zoolo… https:… devel      a18cc3f        
+#> 10 acde    1.43.0  Juan Pabl… jpacostar at u… https:… devel      847deff        
+#> # ℹ 1,714,260 more rows
 #> # ℹ 2 more variables: git_last_commit_date <dttm>, report_md5 <chr>
 
 library(dplyr)
 # all the package Lori Shepherd maintains
 info |> filter(Maintainer == "Lori Shepherd") |> distinct(Package)
-#> # A tibble: 2 × 1
+#> # A tibble: 3 × 1
 #>   Package          
 #>   <chr>            
-#> 1 BiocFileCache    
-#> 2 BiocMaintainerApp
+#> 1 BiocBuildReporter
+#> 2 BiocFileCache    
+#> 3 BiocMaintainerApp
 
 ```

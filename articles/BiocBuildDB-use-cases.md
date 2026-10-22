@@ -32,6 +32,7 @@ and analyze this rich dataset to understand:
 ## Setup
 
 ``` r
+
 library(BiocBuildDB)
 library(dplyr)
 library(ggplot2)
@@ -48,6 +49,7 @@ function retrieves all three parquet files containing Bioconductor build
 data:
 
 ``` r
+
 # Download all available tables
 # This will cache the tables for quick subsequent access
 get_all_bbs_tables()
@@ -67,6 +69,7 @@ You can also retrieve individual tables using
 [`get_bbs_table()`](https://seandavi.github.io/BiocBuildDB/reference/get_bbs_table.md):
 
 ``` r
+
 # Get the build summary table
 build_summary <- get_bbs_table("build_summary")
 
@@ -90,10 +93,11 @@ function retrieves version and git information for a package across all
 Bioconductor releases:
 
 ``` r
+
 # Get release information for BiocFileCache
 bfc_releases <- get_package_release_info("BiocFileCache")
 bfc_releases
-#> # A tibble: 11 × 5
+#> # A tibble: 12 × 5
 #>    Package       Version git_branch   git_last_commit git_last_commit_date
 #>    <chr>         <chr>   <chr>        <chr>           <dttm>              
 #>  1 BiocFileCache 2.0.0   RELEASE_3_13 280a8f9         2021-05-19 16:26:36 
@@ -106,7 +110,8 @@ bfc_releases
 #>  8 BiocFileCache 2.14.0  RELEASE_3_20 66862c5         2024-10-29 15:18:07 
 #>  9 BiocFileCache 2.16.2  RELEASE_3_21 22fec96         2025-08-25 12:44:02 
 #> 10 BiocFileCache 3.0.0   RELEASE_3_22 81fd6e0         2025-10-29 15:37:29 
-#> 11 BiocFileCache 3.1.0   devel        c4f8ba6         2025-10-29 15:37:29
+#> 11 BiocFileCache 3.2.0   RELEASE_3_23 6283a0f         2026-04-28 12:45:18 
+#> 12 BiocFileCache 3.3.0   devel        20482da         2026-04-28 12:45:18
 ```
 
 This shows:
@@ -127,10 +132,11 @@ function provides statistics on how often a package has failed during
 builds:
 
 ``` r
+
 # Get error counts for BiocFileCache
 bfc_errors <- package_error_count("BiocFileCache")
 bfc_errors
-#> # A tibble: 408 × 6
+#> # A tibble: 432 × 6
 #>    node      version    stage    count_total count_error git_branch  
 #>    <chr>     <pckg_vrs> <chr>          <int>       <int> <chr>       
 #>  1 machv2    2.0.0      buildbin           1           0 RELEASE_3_13
@@ -143,7 +149,7 @@ bfc_errors
 #>  8 tokay2    2.0.0      buildbin           1           0 RELEASE_3_13
 #>  9 tokay2    2.0.0      buildsrc           1           0 RELEASE_3_13
 #> 10 tokay2    2.0.0      checksrc           1           0 RELEASE_3_13
-#> # ℹ 398 more rows
+#> # ℹ 422 more rows
 
 # Filter to a specific branch
 bfc_errors_release <- package_error_count("BiocFileCache", branch = "RELEASE_3_22")
@@ -171,9 +177,9 @@ bfc_errors_builder
 #> # A tibble: 3 × 6
 #>   node      version    stage    count_total count_error git_branch  
 #>   <chr>     <pckg_vrs> <chr>          <int>       <int> <chr>       
-#> 1 nebbiolo2 3.0.0      buildsrc          39           8 RELEASE_3_22
-#> 2 nebbiolo2 3.0.0      checksrc          31           7 RELEASE_3_22
-#> 3 nebbiolo2 3.0.0      install           39           0 RELEASE_3_22
+#> 1 nebbiolo2 3.0.0      buildsrc          80           9 RELEASE_3_22
+#> 2 nebbiolo2 3.0.0      checksrc          70           9 RELEASE_3_22
+#> 3 nebbiolo2 3.0.0      install           80           0 RELEASE_3_22
 ```
 
 This returns:
@@ -188,25 +194,24 @@ This returns:
 For the devel branch, you can filter to the most recent version:
 
 ``` r
+
 # Get devel errors
 dev_errors <- package_error_count("BiocFileCache", branch = "devel")
 
 # Filter to current devel version
 dev_errors |> filter(version == max(version))
-#> # A tibble: 11 × 6
-#>    node      version    stage    count_total count_error git_branch
-#>    <chr>     <pckg_vrs> <chr>          <int>       <int> <chr>     
-#>  1 kjohnson3 3.1.0      buildbin          46           0 devel     
-#>  2 kjohnson3 3.1.0      buildsrc          57          11 devel     
-#>  3 kjohnson3 3.1.0      checksrc          46           0 devel     
-#>  4 kjohnson3 3.1.0      install           57           0 devel     
-#>  5 lconway   3.1.0      buildbin           9           0 devel     
-#>  6 lconway   3.1.0      buildsrc          11           2 devel     
-#>  7 lconway   3.1.0      checksrc           9           1 devel     
-#>  8 lconway   3.1.0      install           11           0 devel     
-#>  9 nebbiolo1 3.1.0      buildsrc          85          14 devel     
-#> 10 nebbiolo1 3.1.0      checksrc          71           8 devel     
-#> 11 nebbiolo1 3.1.0      install           85           0 devel
+#> # A tibble: 9 × 6
+#>   node      version    stage    count_total count_error git_branch
+#>   <chr>     <pckg_vrs> <chr>          <int>       <int> <chr>     
+#> 1 kjohnson3 3.3.0      buildsrc          15           0 devel     
+#> 2 kjohnson3 3.3.0      checksrc          15           0 devel     
+#> 3 kjohnson3 3.3.0      install           15           0 devel     
+#> 4 nebbiolo2 3.3.0      buildsrc          34           0 devel     
+#> 5 nebbiolo2 3.3.0      checksrc          34           1 devel     
+#> 6 nebbiolo2 3.3.0      install           34           0 devel     
+#> 7 taishan   3.3.0      buildsrc           1           0 devel     
+#> 8 taishan   3.3.0      checksrc           1           0 devel     
+#> 9 taishan   3.3.0      install            1           0 devel
 ```
 
 ## Exploratory Data Analysis
@@ -217,6 +222,7 @@ Let’s explore how the number of Bioconductor packages has grown over
 time:
 
 ``` r
+
 # Get info table
 info <- get_bbs_table("info")
 
@@ -231,21 +237,22 @@ package_counts <- info |>
 
 # Display the counts
 package_counts
-#> # A tibble: 12 × 2
+#> # A tibble: 13 × 2
 #>    git_branch   n_packages
 #>    <chr>             <int>
-#>  1 devel              3052
-#>  2 RELEASE_3_22       2885
-#>  3 RELEASE_3_21       2859
-#>  4 RELEASE_3_19       2816
-#>  5 RELEASE_3_20       2807
-#>  6 RELEASE_3_18       2778
-#>  7 RELEASE_3_17       2723
-#>  8 RELEASE_3_16       2670
-#>  9 RELEASE_3_15       2622
-#> 10 RELEASE_3_14       2528
-#> 11 RELEASE_3_13       2475
-#> 12 master               33
+#>  1 devel              3140
+#>  2 RELEASE_3_23       2915
+#>  3 RELEASE_3_22       2885
+#>  4 RELEASE_3_21       2859
+#>  5 RELEASE_3_19       2816
+#>  6 RELEASE_3_20       2807
+#>  7 RELEASE_3_18       2778
+#>  8 RELEASE_3_17       2723
+#>  9 RELEASE_3_16       2670
+#> 10 RELEASE_3_15       2622
+#> 11 RELEASE_3_14       2528
+#> 12 RELEASE_3_13       2475
+#> 13 master               33
 
 # Visualize package counts by branch
 ggplot(package_counts, aes(x = reorder(git_branch, n_packages), y = n_packages)) +
@@ -267,6 +274,7 @@ Understanding the distribution of build statuses helps identify overall
 system health:
 
 ``` r
+
 # Get build summary table
 build_summary <- get_bbs_table("build_summary")
 
@@ -279,10 +287,10 @@ status_counts
 #> # A tibble: 4 × 2
 #>   status          n
 #>   <chr>       <int>
-#> 1 OK       12716622
-#> 2 WARNINGS   621853
-#> 3 ERROR      388476
-#> 4 TIMEOUT     17582
+#> 1 OK       14461974
+#> 2 WARNINGS   718353
+#> 3 ERROR      475727
+#> 4 TIMEOUT     18630
 
 # Visualize status distribution
 ggplot(status_counts, aes(x = reorder(status, n), y = n)) +
@@ -310,6 +318,7 @@ ggplot(status_counts, aes(x = reorder(status, n), y = n)) +
 Different platforms may have different build characteristics:
 
 ``` r
+
 # Analyze build status by platform (node)
 platform_status <- build_summary |>
   group_by(node, status) |>
@@ -337,14 +346,14 @@ head(error_rates, 10)
 #> # A tibble: 10 × 4
 #>    node      error_count   total error_rate
 #>    <chr>           <int>   <int>      <dbl>
-#>  1 kakapo1           114     740      15.4 
-#>  2 riesling1          12      88      13.6 
-#>  3 amarone           196    1466      13.4 
-#>  4 biocgpu           265    2328      11.4 
-#>  5 taishan         55374  944243       5.86
-#>  6 kunpeng2        50358  907145       5.55
-#>  7 nebbiolo1       58379 1934925       3.02
-#>  8 kjohnson3       69678 2342492       2.97
+#>  1 kakapo1           317    1574      20.1 
+#>  2 amarone           281    2023      13.9 
+#>  3 riesling1          12      88      13.6 
+#>  4 biocgpu           373    3902       9.56
+#>  5 kunpeng2        55629  925634       6.01
+#>  6 taishan         56162  950813       5.91
+#>  7 kjohnson3      115871 2919399       3.97
+#>  8 nebbiolo1       77941 2616827       2.98
 #>  9 kjohnson2         251    8628       2.91
 #> 10 palomino3       11216  436957       2.57
 ```
@@ -354,6 +363,7 @@ head(error_rates, 10)
 Understanding which build stage most often fails:
 
 ``` r
+
 # Analyze failures by stage
 stage_failures <- build_summary |>
   filter(status %in% c("ERROR", "TIMEOUT")) |>
@@ -364,12 +374,12 @@ stage_failures
 #> # A tibble: 8 × 3
 #>   stage    status       n
 #>   <chr>    <chr>    <int>
-#> 1 buildsrc ERROR   204920
-#> 2 checksrc ERROR   111973
-#> 3 install  ERROR    70717
-#> 4 checksrc TIMEOUT   9444
-#> 5 buildsrc TIMEOUT   8049
-#> 6 buildbin ERROR      866
+#> 1 buildsrc ERROR   247396
+#> 2 checksrc ERROR   129746
+#> 3 install  ERROR    92735
+#> 4 checksrc TIMEOUT   9909
+#> 5 buildsrc TIMEOUT   8632
+#> 6 buildbin ERROR     5850
 #> 7 buildbin TIMEOUT     57
 #> 8 install  TIMEOUT     32
 
@@ -393,6 +403,7 @@ ggplot(stage_failures, aes(x = stage, y = n, fill = status)) +
 Identify packages with the highest error rates:
 
 ``` r
+
 # Find packages with most errors
 package_errors <- build_summary |>
   filter(status %in% c("ERROR", "TIMEOUT")) |>
@@ -409,16 +420,16 @@ head(package_errors, 10)
 #> # A tibble: 10 × 2
 #>    package    total_errors
 #>    <chr>             <int>
-#>  1 lapmix             2172
-#>  2 netZooR            1727
-#>  3 hypeR              1685
-#>  4 ChemmineOB         1554
-#>  5 XNAString          1484
-#>  6 Repitools          1472
-#>  7 ccfindR            1456
-#>  8 gpuMagic           1426
-#>  9 graper             1388
-#> 10 gespeR             1375
+#>  1 lapmix             2254
+#>  2 netZooR            2097
+#>  3 ChemmineOB         1726
+#>  4 hypeR              1700
+#>  5 ccfindR            1604
+#>  6 XNAString          1566
+#>  7 Repitools          1554
+#>  8 slalom             1523
+#>  9 gpuMagic           1508
+#> 10 ADAPT              1505
 ```
 
 ### Maintainer Analysis
@@ -426,6 +437,7 @@ head(package_errors, 10)
 Analyze package maintenance patterns:
 
 ``` r
+
 # Get unique packages per maintainer
 maintainer_packages <- info |>
   group_by(Maintainer) |>
@@ -441,16 +453,16 @@ head(maintainer_packages, 10)
 #> # A tibble: 10 × 3
 #>    Maintainer                      n_packages packages                          
 #>    <chr>                                <int> <chr>                             
-#>  1 Bioconductor Package Maintainer         72 GSE62944, hgu2beta7, TENxBrainDat…
-#>  2 Aaron Lun                               62 celldex, chipseqDBData, DropletTe…
-#>  3 Hervé Pagès                             25 pasillaBamSubset, RNAseqData.HNRN…
-#>  4 VJ Carey                                25 harbChIP, leeBamViews, MAQCsubset…
-#>  5 Laurent Gatto                           24 depmap, RforProteomics, CTdata, h…
-#>  6 Marcel Ramos                            24 curatedTCGAData, SingleCellMultiM…
-#>  7 Michael Love                            20 airway, fission, macrophage, null…
-#>  8 Guangchuang Yu                          16 ChIPseeker, clusterProfiler, DOSE…
-#>  9 Jianhong Ou                             16 ATACseqQC, ATACseqTFEA, ChIPpeakA…
-#> 10 Mike Smith                              16 BeadArrayUseCases, HD2013SGI, min…
+#>  1 Bioconductor Package Maintainer         72 annotate, AnnotationDbi, Annotati…
+#>  2 Aaron Lun                               68 alabaster.base, alabaster.bumpy, …
+#>  3 Hervé Pagès                             27 BiocGenerics, Biostrings, BSgenom…
+#>  4 Marcel Ramos                            27 AnVIL, AnVILAz, AnVILBase, AnVILG…
+#>  5 VJ Carey                                25 gwascat, ivygapSE, keggorthology,…
+#>  6 Laurent Gatto                           24 CTdata, hpar, MsDataHub, MsExperi…
+#>  7 Michael Love                            20 DESeq2, fishpond, nullranges, ply…
+#>  8 Jianhong Ou                             17 annoLinker, ATACseqQC, ATACseqTFE…
+#>  9 Guangchuang Yu                          16 ChIPseeker, clusterProfiler, DOSE…
+#> 10 Mike Smith                              16 BeadDataPackR, BiocWorkflowTools,…
 
 # Distribution of packages per maintainer
 ggplot(maintainer_packages, aes(x = n_packages)) +
@@ -470,6 +482,7 @@ ggplot(maintainer_packages, aes(x = n_packages)) +
 Analyze build patterns over time:
 
 ``` r
+
 # Analyze build patterns over time
 build_summary <- build_summary |>
   mutate(
@@ -497,6 +510,7 @@ ggplot(monthly_builds, aes(x = month_date, y = n)) +
 ![](BiocBuildDB-use-cases_files/figure-html/temporal_analysis-1.png)
 
 ``` r
+
 
 # Error rate over time
 monthly_errors <- build_summary |>

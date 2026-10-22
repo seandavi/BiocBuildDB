@@ -23,6 +23,7 @@ To process all new build reports (those that changed since the last
 processing), you can use the following code:
 
 ``` r
+
 library(BiocBuildDB)
 reportdb_filename = 'reportdb.csv'
 dir.create('report_dir')
@@ -70,6 +71,7 @@ show how the package works and some example output in the tables.
 Show an example of how to work with a report.tgz file.
 
 ``` r
+
 library(BiocBuildDB)
 report_tgz <- example_report_tgz()
 report_dir <- untar_report_tgz(report_tgz)
@@ -81,6 +83,7 @@ prop_df <- get_propagation_status_table(report_dir)
 Show the first few rows of each table.
 
 ``` r
+
 head(summary_df)
 ```
 
@@ -96,6 +99,7 @@ head(summary_df)
     # ℹ 2 more variables: command <chr>, report_md5 <chr>
 
 ``` r
+
 colnames(summary_df)
 ```
 
@@ -103,6 +107,7 @@ colnames(summary_df)
     [6] "startedat"  "endedat"    "command"    "report_md5"
 
 ``` r
+
 head(info_df)
 ```
 
@@ -118,6 +123,7 @@ head(info_df)
     # ℹ 2 more variables: git_last_commit_date <dttm>, report_md5 <chr>
 
 ``` r
+
 colnames(info_df)
 ```
 
@@ -126,6 +132,7 @@ colnames(info_df)
     [7] "git_last_commit"      "git_last_commit_date" "report_md5"          
 
 ``` r
+
 head(prop_df)
 ```
 
@@ -140,6 +147,7 @@ head(prop_df)
     6 AHPubMedDbs   source  NO, version to propagate (0.99.8) is lower t… f8fd2897c…
 
 ``` r
+
 colnames(prop_df)
 ```
 
@@ -149,6 +157,7 @@ Present a histogram of build times (in seconds) for the packages in the
 example build report.
 
 ``` r
+
 hist(as.numeric(summary_df$endedat - summary_df$startedat))
 ```
 
